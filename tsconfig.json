@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "lib": ["ESNext", "DOM"],
+        "strict": true,
+        "moduleResolution": "Node",
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "removeComments": false
+    }
+}

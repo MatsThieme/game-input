@@ -1,0 +1,15 @@
+{
+    "name": "@game-input/adapter-keyboard",
+    "version": "0.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "bundle": "dist/index.min.js",
+    "types": "dist/index.d.ts",
+    "author": "Mats Thieme",
+    "license": "MIT",
+    "scripts": {
+        "clean": "rimraf dist",
+        "build": "npm run clean && rollup -c"
+    }
+}
