@@ -1,0 +1,14 @@
+name: Ensure version availability
+description: Fail if requested version exists
+
+inputs:
+    version:
+        required: true
+        type: string
+
+runs:
+    using: composite
+    steps:
+        - shell: bash
+          run: ${GITHUB_ACTION_PATH}/action.sh "${{ github.repository }}" "${{ inputs.version }}"
+

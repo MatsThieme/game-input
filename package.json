@@ -4,11 +4,8 @@
     "description": "",
     "license": "MIT",
     "scripts": {
-        "build": "scripts/execute-all.sh \"npm run build\"",
         "format": "prettier -w packages",
-        "patch": "npm version patch --no-git-tag-version && scripts/execute-all.sh \"npm version patch --no-git-tag-version\"",
-        "minor": "npm version minor --no-git-tag-version && scripts/execute-all.sh \"npm version minor --no-git-tag-version\"",
-        "major": "npm version major --no-git-tag-version && scripts/execute-all.sh \"npm version major --no-git-tag-version\""
+        "publishAll": "scripts/execute-all.sh \"npm publish\""
     },
     "devDependencies": {
         "@rollup/plugin-typescript": "^8.3.3",

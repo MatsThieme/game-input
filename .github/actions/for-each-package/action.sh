@@ -1,9 +1,6 @@
 #!/bin/bash
 
-cd packages || (
-  echo "cd failed" &
-  exit 1
-)
+cd packages || exit 1
 
 rawDirs=(*)
 dirs=("core" "${rawDirs[@]/core/}")

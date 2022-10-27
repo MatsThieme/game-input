@@ -1,0 +1,71 @@
+name: Publish to npm
+
+on:
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "New release version"
+                required: true
+                type: string
+            tag:
+                description: "Associated npm release tag"
+                required: false
+                type: string
+                default: latest
+
+jobs:
+    check-version:
+        runs-on: ubuntu-latest
+        name: Ensure release version availability
+        steps:
+            - uses: actions/checkout@v3
+            - uses: ./.github/actions/ensure-release-availability
+              with:
+                  version: ${{ inputs.version }}
+    set-version:
+        runs-on: ubuntu-latest
+        name: Create release branch
+        needs: check-version
+        steps:
+            - uses: actions/checkout@v3
+            - uses: ./.github/actions/for-each-package
+              with:
+                  command: npm version ${{ inputs.version }}
+            - run: |
+                  git config --global user.name 'ci/cd'
+                  git config --global user.email ''
+                  git commit -am "ci(release): release version \"${{ inputs.version }}\""
+                  git checkout -b release/${{ inputs.version }}
+                  git push --set-upstream origin release/${{ inputs.version }}
+    publish:
+        runs-on: ubuntu-latest
+        name: Publish to npm
+        needs: set-version
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  ref: release/${{ inputs.version }}
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+                  registry-url: "https://registry.npmjs.org"
+            - run: npm ci
+            - uses: ./.github/actions/for-each-package
+              with:
+                  command: npm publish --access public --tag ${{ inputs.tag }}
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+
+    merge-to-main:
+        runs-on: ubuntu-latest
+        name: Merge release branch to main
+        needs: publish
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - run: |
+                  git checkout main
+                  git merge --ff-only origin/release/${{ inputs.version }}
+                  git push
+
