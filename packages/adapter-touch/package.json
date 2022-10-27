@@ -8,8 +8,15 @@
     "types": "dist/index.d.ts",
     "author": "Mats Thieme",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MatsThieme/game-input.git",
+        "directory": "packages/adapter-touch"
+    },
     "scripts": {
         "clean": "rimraf dist",
-        "build": "npm run clean && rollup -c"
+        "build": "npm run clean && rollup -c",
+        "prepare": "npm run build"
     }
 }
+
