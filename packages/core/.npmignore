@@ -1,9 +1,4 @@
-.idea
-.vscode
-node_modules
 src
-.gitignore
-.prettierrc
 jest.config.ts
 rollup.config.ts
 tsconfig.json

@@ -1,7 +1,4 @@
-.idea
-.vscode
-node_modules
 src
-.gitignore
+jest.config.ts
+rollup.config.ts
 tsconfig.json
-yarn.lock

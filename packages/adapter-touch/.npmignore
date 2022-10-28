@@ -1,4 +1,4 @@
-node_modules
 src
+jest.config.ts
+rollup.config.ts
 tsconfig.json
-
