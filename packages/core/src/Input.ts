@@ -7,11 +7,12 @@ type GetAdapter<ButtonMapping, AxisMapping> = Record<
     InputAdapter
 >;
 
+type Keys<T> = T extends Record<string, unknown> ? keyof T : never;
+
 type GetActionMappedTo<
-    Adapters extends Record<K, InputAdapter>,
-    Mapping extends Record<string, Record<string, string | number>>,
-    K extends keyof Adapters & keyof Mapping = keyof Adapters & keyof Mapping
-> = keyof Mapping[K];
+    Adapters extends Record<string, InputAdapter>,
+    Mapping extends Record<string, Record<string, string | number>>
+> = Keys<Mapping[keyof Adapters & keyof Mapping]>;
 
 type MappedButtons<Adapters extends Record<string, InputAdapter>> = {
     [K in keyof Adapters]: Record<string, Adapters[K] extends InputAdapter<infer X> ? X : never>;
@@ -25,11 +26,11 @@ type MappedAxes<Adapters extends Record<string, InputAdapter>> = {
 };
 
 export class Input<
-    ButtonMapping extends MappedButtons<Adapters> = never,
-    AxisMapping extends MappedAxes<Adapters> = never,
-    Adapters extends GetAdapter<ButtonMapping, AxisMapping> = never,
-    ButtonActions extends GetActionMappedTo<Adapters, ButtonMapping> = never,
-    AxisActions extends GetActionMappedTo<Adapters, AxisMapping> = never
+    ButtonMapping extends MappedButtons<Adapters>,
+    AxisMapping extends MappedAxes<Adapters>,
+    Adapters extends GetAdapter<ButtonMapping, AxisMapping>,
+    ButtonActions extends GetActionMappedTo<Adapters, ButtonMapping>,
+    AxisActions extends GetActionMappedTo<Adapters, AxisMapping>
 > {
     private readonly _mappingButtons: Readonly<ButtonMapping>;
     private readonly _mappingAxes: Readonly<AxisMapping>;
@@ -150,3 +151,4 @@ export class Input<
         }
     }
 }
+
