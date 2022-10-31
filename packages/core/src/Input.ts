@@ -1,29 +1,14 @@
 import { InputAxis } from "./InputAxis/InputAxis";
 import { InputButton } from "./InputButton/InputButton";
-import type { InputAdapter } from "./InputAdapter";
-
-type GetAdapter<ButtonMapping, AxisMapping> = Record<
-    keyof ButtonMapping & keyof AxisMapping & string,
-    InputAdapter
->;
-
-type Keys<T> = T extends Record<string, unknown> ? keyof T : never;
-
-type GetActionMappedTo<
-    Adapters extends Record<string, InputAdapter>,
-    Mapping extends Record<string, Record<string, string | number>>
-> = Keys<Mapping[keyof Adapters & keyof Mapping]>;
-
-type MappedButtons<Adapters extends Record<string, InputAdapter>> = {
-    [K in keyof Adapters]: Record<string, Adapters[K] extends InputAdapter<infer X> ? X : never>;
-};
-
-type MappedAxes<Adapters extends Record<string, InputAdapter>> = {
-    [K in keyof Adapters]: Record<
-        string,
-        Adapters[K] extends InputAdapter<string | number, infer X> ? X : never
-    >;
-};
+import type {
+    GetActionMappedTo,
+    GetAdapter,
+    GetAdaptersForAction,
+    GetInputAxisForAdapter,
+    GetInputButtonForAdapter,
+    MappedAxes,
+    MappedButtons,
+} from "./types";
 
 export class Input<
     ButtonMapping extends MappedButtons<Adapters>,
@@ -36,10 +21,8 @@ export class Input<
     private readonly _mappingAxes: Readonly<AxisMapping>;
     private readonly _adapters: Readonly<Adapters>;
 
-    private readonly _frameInputButtonCache: Partial<
-        Record<ButtonActions, InputButton | undefined>
-    >;
-    private readonly _frameInputAxisCache: Partial<Record<AxisActions, InputAxis | undefined>>;
+    private readonly _frameInputButtonCache: Partial<Record<ButtonActions, Readonly<InputButton>>>;
+    private readonly _frameInputAxisCache: Partial<Record<AxisActions, InputAxis<any>>>;
 
     public constructor(
         adapters: Adapters,
@@ -67,24 +50,31 @@ export class Input<
     /**
      * Returns an InputButton object mapped to the given input action.
      */
-    public getButton<T extends InputButton>(action: ButtonActions): Readonly<T> {
+    public getButton<
+        T extends ButtonActions,
+        U extends GetInputButtonForAdapter<GetAdaptersForAction<T, ButtonMapping, Adapters>>
+    >(action: T): Readonly<U> {
         if (this._frameInputButtonCache[action]) {
-            return this._frameInputButtonCache[action] as T;
+            return this._frameInputButtonCache[action] as U;
         }
 
-        let button: Readonly<InputButton> | undefined;
+        let button: Readonly<U> | undefined;
 
         for (const adapter in this._adapters) {
-            const mappedTo = this._mappingButtons?.[adapter]?.[action];
+            const mappedTo = this._mappingButtons[adapter]?.[action];
 
-            if (!mappedTo) continue;
+            if (!mappedTo) {
+                continue;
+            }
 
-            const buttonAdapter = this._adapters[adapter].getButton(mappedTo);
+            const buttonAdapter = this._adapters[adapter].getButton(mappedTo) as U | undefined;
 
-            if (!buttonAdapter) continue;
+            if (!buttonAdapter) {
+                continue;
+            }
 
-            if (buttonAdapter.down && buttonAdapter.click) {
-                return buttonAdapter as T;
+            if (buttonAdapter.click) {
+                return buttonAdapter;
             } else if (buttonAdapter.down) {
                 button = buttonAdapter;
             } else if (!button) {
@@ -92,34 +82,49 @@ export class Input<
             }
         }
 
-        return (this._frameInputButtonCache[action] = (button as T) ?? new InputButton());
+        if (!button) {
+            throw new Error("No adapter returned an InputButton");
+        }
+
+        return (this._frameInputButtonCache[action] = button);
     }
 
     /**
      * Returns an InputAxis object mapped to the given InputAction.
      */
-    public getAxis<T extends InputAxis>(action: AxisActions): Readonly<T> {
+    public getAxis<
+        T extends AxisActions,
+        U extends GetInputAxisForAdapter<GetAdaptersForAction<T, AxisMapping, Adapters>>
+    >(action: T): Readonly<U> {
         if (this._frameInputAxisCache[action]) {
-            return this._frameInputAxisCache[action] as T;
+            return this._frameInputAxisCache[action] as U;
         }
 
-        let axis: Readonly<InputAxis> | undefined;
+        let axis: Readonly<U> | undefined;
 
         for (const adapter in this._adapters) {
-            const mappedTo = this._mappingAxes?.[adapter]?.[action];
+            const mappedTo = this._mappingAxes[adapter]?.[action];
 
-            if (!mappedTo) continue;
+            if (!mappedTo) {
+                continue;
+            }
 
-            const axisAdapter = this._adapters[adapter].getAxis(mappedTo);
+            const axisAdapter = this._adapters[adapter].getAxis(mappedTo) as U | undefined;
 
-            if (!axisAdapter) continue;
+            if (!axisAdapter) {
+                continue;
+            }
 
             if (!axis || axisAdapter.getLength() > axis.getLength()) {
                 axis = axisAdapter;
             }
         }
 
-        return (this._frameInputAxisCache[action] = (axis as T) ?? new InputAxis());
+        if (!axis) {
+            throw new Error("No adapter returned an InputAxis");
+        }
+
+        return (this._frameInputAxisCache[action] = axis as unknown as InputAxis) as U; // TODO: fix type
     }
 
     public update(): void {
@@ -151,4 +156,3 @@ export class Input<
         }
     }
 }
-
