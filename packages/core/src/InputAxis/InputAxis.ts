@@ -1,14 +1,18 @@
-type NumberTupleMinLength = [number, ...number[]];
+type NumberTuple = [...number[]];
 
-export class InputAxis {
-    private _values: NumberTupleMinLength;
+export class InputAxis<T extends number[] = NumberTuple> {
+    private _values: T;
     private _length?: number;
     private _changed: number;
 
-    public constructor(values?: number | NumberTupleMinLength) {
-        if (values === undefined) this._values = [0];
-        else if (typeof values === "number") this._values = [values];
-        else this._values = values.slice() as NumberTupleMinLength;
+    public constructor(values?: number | T) {
+        if (values === undefined) {
+            this._values = [0] as unknown as T;
+        } else if (typeof values === "number") {
+            this._values = [values] as unknown as T;
+        } else {
+            this._values = values.slice() as T;
+        }
 
         this._changed = 0;
     }
@@ -20,19 +24,19 @@ export class InputAxis {
         return this._changed === 1;
     }
 
-    public getValues(): Readonly<NumberTupleMinLength> {
+    public getValues(): Readonly<T> {
         return this._values;
     }
 
     /**
      * @internal
      */
-    public setValues(values: Readonly<NumberTupleMinLength>): void {
+    public setValues(values: Readonly<T>): void {
         if (
             this._values.length !== values.length ||
             this._values.some((value, index) => value !== values[index])
         ) {
-            this._values = values.slice() as NumberTupleMinLength;
+            this._values = values.slice() as T;
 
             this._length !== undefined && (this._length = undefined);
             this._changed = 2;
