@@ -5,7 +5,8 @@
     "license": "MIT",
     "scripts": {
         "format": "prettier -w packages",
-        "publishAll": "scripts/execute-all.sh \"npm publish\""
+        "dev": "tsc -b --watch",
+        "clean": "tsc -b --clean"
     },
     "devDependencies": {
         "@rollup/plugin-typescript": "^8.3.3",
@@ -21,3 +22,4 @@
         "typescript": "^4.7.4"
     }
 }
+

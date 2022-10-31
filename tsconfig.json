@@ -6,6 +6,22 @@
         "moduleResolution": "Node",
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true,
-        "removeComments": false
-    }
+        "removeComments": false,
+        "composite": true,
+        "paths": {
+            "@game-input/core": ["./packages/core/dist"],
+            "@game-input/adapter-gamepad": ["./packages/adapter-gamepad/dist"],
+            "@game-input/adapter-keyboard": ["./packages/adapter-keyboard/dist"],
+            "@game-input/adapter-mouse": ["./packages/adapter-mouse/dist"],
+            "@game-input/adapter-touch": ["./packages/adapter-touch/dist"]
+        }
+    },
+    "references": [
+        { "path": "./packages/core/tsconfig.dev.json" },
+        { "path": "./packages/adapter-gamepad/tsconfig.dev.json" },
+        { "path": "./packages/adapter-keyboard/tsconfig.dev.json" },
+        { "path": "./packages/adapter-mouse/tsconfig.dev.json" },
+        { "path": "./packages/adapter-touch/tsconfig.dev.json" }
+    ],
+    "files": []
 }
