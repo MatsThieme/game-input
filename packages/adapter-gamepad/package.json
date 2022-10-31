@@ -16,6 +16,7 @@
     "scripts": {
         "clean": "rimraf dist",
         "build": "npm run clean && rollup -c",
-        "prepare": "npm run build"
+        "prepare": "npm run build",
+        "test": "echo \"no tests\""
     }
 }

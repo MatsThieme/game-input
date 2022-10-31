@@ -22,10 +22,19 @@ jobs:
             - uses: ./.github/actions/ensure-release-availability
               with:
                   version: ${{ inputs.version }}
+    test:
+        runs-on: ubuntu-latest
+        name: Run unit tests
+        needs: check-version
+        steps:
+            - uses: actions/checkout@v3
+            - uses: ./.github/actions/for-each-package
+              with:
+                  command: npm test
     set-version:
         runs-on: ubuntu-latest
         name: Create release branch
-        needs: check-version
+        needs: test
         steps:
             - uses: actions/checkout@v3
             - uses: ./.github/actions/for-each-package
@@ -68,4 +77,3 @@ jobs:
                   git checkout main
                   git merge --ff-only origin/release/${{ inputs.version }}
                   git push
-
