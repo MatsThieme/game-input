@@ -22,10 +22,23 @@ jobs:
             - uses: ./.github/actions/ensure-release-availability
               with:
                   version: ${{ inputs.version }}
+    test:
+        runs-on: ubuntu-latest
+        name: Run unit tests
+        needs: check-version
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+            - run: npm ci
+            - uses: ./.github/actions/for-each-package
+              with:
+                  command: npm test
     set-version:
         runs-on: ubuntu-latest
         name: Create release branch
-        needs: check-version
+        needs: test
         steps:
             - uses: actions/checkout@v3
             - uses: ./.github/actions/for-each-package
