@@ -1,4 +1,6 @@
 src
 jest.config.ts
 rollup.config.ts
+.rollup.cache
 tsconfig.json
+*.tsbuildinfo
