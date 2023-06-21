@@ -9,6 +9,7 @@
     "scripts": {
         "format": "prettier -w packages",
         "lint": "eslint packages/**/src --ext .ts --max-warnings 0",
+        "typecheck": "yarn workspaces foreach --no-private run typecheck",
         "test": "yarn workspaces foreach --no-private run test",
         "build": "yarn workspaces foreach --no-private run build",
         "set-version": "yarn workspaces foreach --no-private version",

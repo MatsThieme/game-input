@@ -36,7 +36,7 @@ jobs:
                   version: $computed_version
     test:
         runs-on: ubuntu-latest
-        name: Run unit tests
+        name: Test, Lint, Typecheck
         needs: check-version
         steps:
             - uses: actions/checkout@v3
@@ -44,7 +44,10 @@ jobs:
               with:
                   node-version: 18
             - run: yarn --immutable --immutable-cache
+            - run: yarn build
             - run: yarn test
+            - run: yarn lint
+            - run: yarn typecheck
     set-version:
         runs-on: ubuntu-latest
         name: Create release branch

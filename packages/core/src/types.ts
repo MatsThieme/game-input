@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { InputAxis } from "./InputAxis/InputAxis";
 import type { InputButton } from "./InputButton/InputButton";
 import type { InputAdapter } from "./InputAdapter";
