@@ -1,6 +1,6 @@
 import type { InputAdapter } from "@game-input/core";
 import { InputAxis, InputButton } from "@game-input/core";
-import { KeyboardAxis } from "./KeyboardAxis";
+import type { KeyboardAxis } from "./KeyboardAxis";
 import { KeyboardButton } from "./KeyboardButton";
 
 export class Keyboard<
@@ -42,7 +42,9 @@ export class Keyboard<
     }
 
     public getAxis(axis: ActionMappedToAxis): Readonly<InputAxis> | undefined {
-        if (this._axes[axis]) return this._axes[axis];
+        if (this._axes[axis]) {
+            return this._axes[axis];
+        }
 
         const keys = this._axisToKeys(axis);
 
@@ -56,9 +58,11 @@ export class Keyboard<
 
             return this._axes[axis];
         }
+
+        return;
     }
 
-    private _onKeyDown(event: KeyboardEvent) {
+    private _onKeyDown(event: KeyboardEvent): void {
         let btn = this._keys[event.code as KeyboardButton];
 
         if (!btn) {
@@ -68,7 +72,7 @@ export class Keyboard<
         btn.setDown(true);
     }
 
-    private _onKeyUp(event: KeyboardEvent) {
+    private _onKeyUp(event: KeyboardEvent): void {
         let btn = this._keys[<KeyboardButton>event.code];
 
         if (!btn) {
@@ -80,14 +84,17 @@ export class Keyboard<
     }
 
     private _axisToKeys(axis: KeyboardAxis): [KeyboardButton, KeyboardButton] | undefined {
-        if (axis in this._axesParsedCache) return this._axesParsedCache[axis];
+        if (axis in this._axesParsedCache) {
+            return this._axesParsedCache[axis];
+        }
 
         const keys: [KeyboardButton, KeyboardButton] | undefined = axis
             .match(/^Axis\((\w+), (\w+)\)$/)
             ?.slice(1) as [KeyboardButton, KeyboardButton];
 
-        if (!keys || keys.length < 2 || !KeyboardButton[keys[0]] || !KeyboardButton[keys[1]])
+        if (!keys || keys.length < 2 || !KeyboardButton[keys[0]] || !KeyboardButton[keys[1]]) {
             return;
+        }
 
         return (this._axesParsedCache[axis] = keys);
     }

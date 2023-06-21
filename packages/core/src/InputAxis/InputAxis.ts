@@ -1,8 +1,8 @@
-type NumberTuple = [...number[]];
+type NumberTuple = [number, ...number[]];
 
-export class InputAxis<T extends number[] = NumberTuple> {
+export class InputAxis<T extends NumberTuple = NumberTuple> {
     private _values: T;
-    private _length?: number;
+    private _length: number | undefined;
     private _changed: number;
 
     public constructor(values?: number | T) {
