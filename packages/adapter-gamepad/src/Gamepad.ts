@@ -1,7 +1,7 @@
 import type { InputAdapter } from "@game-input/core";
 import { InputAxis, InputButton } from "@game-input/core";
 import { GamepadAxis } from "./GamepadAxis";
-import { GamepadButton } from "./GamepadButton";
+import type { GamepadButton } from "./GamepadButton";
 
 export class Gamepad<
     ActionMappedToButton extends GamepadButton = GamepadButton,
@@ -45,7 +45,9 @@ export class Gamepad<
     }
 
     public getAxis(axis: ActionMappedToAxis): Readonly<InputAxis> | undefined {
-        if (!this._gamepad) return;
+        if (!this._gamepad) {
+            return;
+        }
 
         this._setAxisAtIndex(axis);
 
@@ -53,7 +55,9 @@ export class Gamepad<
     }
 
     public update(): void {
-        if (!this._gamepad) return;
+        if (!this._gamepad) {
+            return;
+        }
 
         for (let i = 0; i < this._gamepad.buttons.length; i++) {
             this._buttons[i]?.setDown(this._gamepad.buttons[i].pressed);
@@ -73,7 +77,9 @@ export class Gamepad<
      * uses standard mapping https://w3c.github.io/gamepad/#remapping
      */
     private _setAxisAtIndex(index: number): void {
-        if (!this._gamepad) return;
+        if (!this._gamepad) {
+            return;
+        }
 
         !this._axes[index] && (this._axes[index] = new InputAxis());
 

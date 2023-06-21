@@ -1,5 +1,5 @@
-import { InputAxis } from "./InputAxis/InputAxis";
-import { InputButton } from "./InputButton/InputButton";
+import type { InputAxis } from "./InputAxis/InputAxis";
+import type { InputButton } from "./InputButton/InputButton";
 import type {
     GetActionMappedTo,
     GetAdapter,
@@ -22,7 +22,7 @@ export class Input<
     private readonly _adapters: Readonly<Adapters>;
 
     private readonly _frameInputButtonCache: Partial<Record<ButtonActions, Readonly<InputButton>>>;
-    private readonly _frameInputAxisCache: Partial<Record<AxisActions, InputAxis<any>>>;
+    private readonly _frameInputAxisCache: Partial<Record<AxisActions, InputAxis>>;
 
     public constructor(
         adapters: Adapters,
@@ -135,7 +135,7 @@ export class Input<
         this._clearCache();
     }
 
-    private _clearCache() {
+    private _clearCache(): void {
         for (const cached in this._frameInputButtonCache) {
             this._frameInputButtonCache[cached] = undefined;
         }

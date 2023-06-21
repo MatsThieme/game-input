@@ -11,4 +11,3 @@ runs:
     steps:
         - shell: bash
           run: ${GITHUB_ACTION_PATH}/action.sh "${{ github.repository }}" "${{ inputs.version }}"
-

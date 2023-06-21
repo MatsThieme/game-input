@@ -2,9 +2,10 @@
     "name": "@game-input/adapter-touch",
     "version": "1.1.0",
     "description": "",
+    "type": "module",
+    "packageManager": "yarn@3.3.1",
+    "module": "dist/index.js",
     "main": "dist/index.js",
-    "module": "dist/index.mjs",
-    "bundle": "dist/index.min.js",
     "types": "dist/index.d.ts",
     "author": "Mats Thieme",
     "license": "MIT",
@@ -14,9 +15,18 @@
         "directory": "packages/adapter-touch"
     },
     "scripts": {
-        "clean": "rimraf dist",
-        "build": "npm run clean && rollup -c",
-        "prepare": "npm run build",
-        "test": "echo \"no tests\""
+        "prepare": "yarn build && node -e \"const pkg = require('./package.json');pkg.peerDependencies['@game-input/core']=pkg.version; require('fs').writeFileSync('./package.json',JSON.stringify(pkg,null,4))\"",
+        "build": "tsc -b",
+        "dev": "tsc -b --watch",
+        "clean": "tsc -b --clean",
+        "test": "vitest run"
+    },
+    "peerDependencies": {
+        "@game-input/core": "workspace:packages/core"
+    },
+    "devDependencies": {
+        "tslib": "^2.5.2",
+        "typescript": "^5.0.4",
+        "vitest": "^0.31.1"
     }
 }
