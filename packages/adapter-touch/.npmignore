@@ -1,6 +1,5 @@
 src
-jest.config.ts
-rollup.config.ts
-.rollup.cache
+vitest.config.ts
 tsconfig.json
 *.tsbuildinfo
+node_modules

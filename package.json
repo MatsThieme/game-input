@@ -1,24 +1,26 @@
 {
-    "name": "game-input-monorepo",
-    "version": "0.0.0",
+    "private": true,
+    "packageManager": "yarn@3.3.1",
+    "workspaces": [
+        "packages/*"
+    ],
     "description": "",
     "license": "MIT",
     "scripts": {
         "format": "prettier -w packages",
-        "dev": "tsc -b --watch",
-        "clean": "tsc -b --clean"
+        "lint": "eslint packages/**/src --ext .ts --max-warnings 0",
+        "test": "yarn workspaces foreach --no-private run test",
+        "build": "yarn workspaces foreach --no-private run build",
+        "set-version": "yarn workspaces foreach --no-private version",
+        "publish-to-npm": "yarn workspaces foreach --no-private run yarn prepare && yarn npm publish --access public"
     },
     "devDependencies": {
-        "@rollup/plugin-typescript": "^8.3.3",
-        "@types/jest": "^28.1.4",
-        "jest": "^28.1.2",
+        "@typescript-eslint/eslint-plugin": "^5.33.1",
+        "@typescript-eslint/parser": "^5.33.1",
+        "eslint": "^8.22.0",
+        "eslint-plugin-es": "^4.1.0",
+        "eslint-plugin-only-warn": "^1.0.3",
         "prettier": "^2.7.1",
-        "rimraf": "^3.0.2",
-        "rollup": "^2.76.0",
-        "rollup-plugin-terser": "^7.0.2",
-        "ts-jest": "^28.0.5",
-        "ts-node": "^10.8.2",
-        "tslib": "^2.4.0",
-        "typescript": "^4.7.4"
+        "typescript": "^4.9.4"
     }
 }

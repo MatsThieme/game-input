@@ -1,7 +1,7 @@
 import type { InputAdapter } from "@game-input/core";
 import { InputAxis, InputButton } from "@game-input/core";
-import { TouchAxis } from "./TouchAxis";
-import { TouchButton } from "./TouchButton";
+import type { TouchAxis } from "./TouchAxis";
+import type { TouchButton } from "./TouchButton";
 
 type TouchRecord = {
     id: number;
@@ -83,6 +83,7 @@ export class Touch<
             for (let i = 0; i < this._touches.length; i++) {
                 if (this._touches[i].id === identifier) {
                     touchRecordIndex = i;
+                    break;
                 }
 
                 if (this._touches[i].valid <= this._invalidateAfterUpdates) {

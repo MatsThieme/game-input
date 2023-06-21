@@ -1,11 +1,13 @@
 {
-    "extends": "../../tsconfig.adapter.json",
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
         "rootDir": "src",
-        "declarationDir": ".",
+        "outDir": "dist",
         "declaration": true,
         "declarationMap": true
     },
     "include": ["src"],
-    "exclude": []
+    "exclude": ["src/**/*.spec.ts"],
+    "files": [],
+    "references": [{ "path": "../core" }]
 }
