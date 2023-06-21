@@ -12,6 +12,18 @@ on:
                 required: false
                 type: string
                 default: latest
+            release_type:
+                description: "Is dev release?"
+                required: true
+                type: choice
+                options:
+                    - dev
+                    - prod
+                default: "dev"
+
+env:
+    computed_version: ${{ inputs.version }}${{ inputs.release_type == 'dev' &&  '-dev' || '' }}
+    computed_tag: ${{ inputs.tag }}${{ inputs.release_type == 'dev' &&  '-dev' || '' }}
 
 jobs:
     check-version:
@@ -21,7 +33,7 @@ jobs:
             - uses: actions/checkout@v3
             - uses: ./.github/actions/ensure-release-availability
               with:
-                  version: ${{ inputs.version }}
+                  version: $computed_version
     test:
         runs-on: ubuntu-latest
         name: Run unit tests
@@ -30,26 +42,23 @@ jobs:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                  node-version: 16
-            - run: npm ci
-            - uses: ./.github/actions/for-each-package
-              with:
-                  command: npm test
+                  node-version: 18
+            - run: yarn --immutable --immutable-cache
+            - run: yarn test
     set-version:
         runs-on: ubuntu-latest
         name: Create release branch
         needs: test
         steps:
             - uses: actions/checkout@v3
-            - uses: ./.github/actions/for-each-package
-              with:
-                  command: npm version ${{ inputs.version }}
+            - run: yarn --immutable --immutable-cache
+            - run: yarn set-version $computed_version
             - run: |
-                  git config --global user.name 'ci/cd'
+                  git config --global user.name 'workflow'
                   git config --global user.email ''
-                  git commit -am "ci(release): release version \"${{ inputs.version }}\""
-                  git checkout -b release/${{ inputs.version }}
-                  git push --set-upstream origin release/${{ inputs.version }}
+                  git commit -am "ci(release): release version \"$computed_version\""
+                  git checkout -b release/$computed_version
+                  git push --set-upstream origin release/$computed_version
     publish:
         runs-on: ubuntu-latest
         name: Publish to npm
@@ -57,20 +66,18 @@ jobs:
         steps:
             - uses: actions/checkout@v3
               with:
-                  ref: release/${{ inputs.version }}
+                  ref: release/${{ env.computed_version }}
             - uses: actions/setup-node@v3
               with:
-                  node-version: 16
+                  node-version: 18
                   registry-url: "https://registry.npmjs.org"
-            - run: npm ci
-            - uses: ./.github/actions/for-each-package
-              with:
-                  command: npm publish --access public --tag ${{ inputs.tag }}
+            - run: yarn --immutable --immutable-cache
+            - run: yarn publish-to-npm --tag $computed_tag
               env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-
+                  NPM_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
     merge-to-main:
         runs-on: ubuntu-latest
+        if: inputs.release_type == 'prod'
         name: Merge release branch to main
         needs: publish
         steps:
@@ -79,6 +86,5 @@ jobs:
                   fetch-depth: 0
             - run: |
                   git checkout main
-                  git merge --ff-only origin/release/${{ inputs.version }}
+                  git merge --ff-only origin/release/$computed_version
                   git push
-

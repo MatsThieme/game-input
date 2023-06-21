@@ -1,7 +1,7 @@
 import type { InputAdapter } from "@game-input/core";
 import { InputAxis, InputButton } from "@game-input/core";
 import { MouseAxis } from "./MouseAxis";
-import { MouseButton } from "./MouseButton";
+import type { MouseButton } from "./MouseButton";
 
 export class Mouse<
     ActionMappedToButton extends MouseButton = MouseButton,

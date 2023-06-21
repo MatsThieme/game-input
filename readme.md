@@ -12,7 +12,7 @@ npm i @game-input/core
 
 ### adapters
 
-> Input adapters, like [@game-input/gamepad](https://www.npmjs.com/package/@game-input/gamepad), are listening to input events and tracking state of inputs between frames.
+> Input adapters, like [@game-input/adapter-keyboard](https://www.npmjs.com/package/@game-input/adapter-keyboard), are listening to input events and tracking state of inputs between frames.
 
 ```console
 npm i @game-input/adapter-gamepad
@@ -93,4 +93,3 @@ function gameloop() {
 
 requestAnimationFrame(gameloop);
 ```
-
