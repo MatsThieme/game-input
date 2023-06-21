@@ -1,6 +1,6 @@
 {
     "tabWidth": 4,
     "singleQuote": false,
-    "endOfLine": "crlf",
+    "endOfLine": "lf",
     "printWidth": 100
 }

@@ -53,7 +53,9 @@ export class InputButton {
     public update(): void {
         this._wasDown = this._down;
 
-        if (this._isSetDown !== undefined) this._down = this._isSetDown;
+        if (this._isSetDown !== undefined) {
+            this._down = this._isSetDown;
+        }
 
         this._isSetDown = undefined;
     }
