@@ -15,7 +15,7 @@
         "directory": "packages/core"
     },
     "scripts": {
-        "prepare": "yarn build",
+        "prepare": "yarn build && cp ../../README.md .",
         "build": "tsc -b",
         "dev": "tsc -b --watch",
         "clean": "tsc -b --clean",
