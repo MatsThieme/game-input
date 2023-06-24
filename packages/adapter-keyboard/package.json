@@ -1,6 +1,6 @@
 {
     "name": "@game-input/adapter-keyboard",
-    "version": "1.1.0",
+    "version": "1.1.2",
     "description": "",
     "type": "module",
     "packageManager": "yarn@3.3.1",
