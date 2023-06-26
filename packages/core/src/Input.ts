@@ -35,7 +35,9 @@ export class Input<
 
         this._frameInputButtonCache = {};
         this._frameInputAxisCache = {};
+    }
 
+    public initialize(): void {
         for (const adapter in this._adapters) {
             this._adapters[adapter].initialize();
         }
@@ -53,7 +55,7 @@ export class Input<
     public getButton<
         T extends ButtonActions,
         U extends GetInputButtonForAdapter<GetAdaptersForAction<T, ButtonMapping, Adapters>>
-    >(action: T): Readonly<U> {
+    >(action: T): Readonly<U> | undefined {
         if (this._frameInputButtonCache[action]) {
             return this._frameInputButtonCache[action] as U;
         }
@@ -83,7 +85,7 @@ export class Input<
         }
 
         if (!button) {
-            throw new Error("No adapter returned an InputButton");
+            return;
         }
 
         return (this._frameInputButtonCache[action] = button);
@@ -95,7 +97,7 @@ export class Input<
     public getAxis<
         T extends AxisActions,
         U extends GetInputAxisForAdapter<GetAdaptersForAction<T, AxisMapping, Adapters>>
-    >(action: T): Readonly<U> {
+    >(action: T): Readonly<U> | undefined {
         if (this._frameInputAxisCache[action]) {
             return this._frameInputAxisCache[action] as U;
         }
@@ -121,7 +123,7 @@ export class Input<
         }
 
         if (!axis) {
-            throw new Error("No adapter returned an InputAxis");
+            return;
         }
 
         return (this._frameInputAxisCache[action] = axis as unknown as InputAxis) as U; // TODO: fix type
