@@ -1,0 +1,156 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`InputAxis > should calculate the length of its values 1`] = `
+{
+  "changed": false,
+  "length": 0,
+  "values": [
+    0,
+  ],
+}
+`;
+
+exports[`InputAxis > should calculate the length of its values 2`] = `
+{
+  "changed": false,
+  "length": 0,
+  "values": [
+    0,
+  ],
+}
+`;
+
+exports[`InputAxis > should calculate the length of its values 3`] = `
+{
+  "changed": false,
+  "length": 0,
+  "values": [
+    0,
+  ],
+}
+`;
+
+exports[`InputAxis > should calculate the length of its values 4`] = `
+{
+  "changed": false,
+  "length": 0,
+  "values": [
+    0,
+    0,
+  ],
+}
+`;
+
+exports[`InputAxis > should calculate the length of its values 5`] = `
+{
+  "changed": false,
+  "length": 1,
+  "values": [
+    1,
+  ],
+}
+`;
+
+exports[`InputAxis > should calculate the length of its values 6`] = `
+{
+  "changed": false,
+  "length": 1,
+  "values": [
+    1,
+  ],
+}
+`;
+
+exports[`InputAxis > should calculate the length of its values 7`] = `
+{
+  "changed": false,
+  "length": 1,
+  "values": [
+    1,
+    0,
+  ],
+}
+`;
+
+exports[`InputAxis > should calculate the length of its values 8`] = `
+{
+  "changed": false,
+  "length": 1,
+  "values": [
+    0,
+    1,
+  ],
+}
+`;
+
+exports[`InputAxis > should calculate the length of its values 9`] = `
+{
+  "changed": false,
+  "length": 0.9899494936611665,
+  "values": [
+    0.7,
+    0.7,
+  ],
+}
+`;
+
+exports[`InputAxis > should calculate the length of its values 10`] = `
+{
+  "changed": false,
+  "length": 2.23159136044214,
+  "values": [
+    0.7,
+    0.7,
+    1,
+    1,
+    1,
+    1,
+  ],
+}
+`;
+
+exports[`InputAxis > should update correctly 1`] = `
+{
+  "changed": false,
+  "length": 0,
+  "values": [
+    0,
+  ],
+}
+`;
+
+exports[`InputAxis > should update correctly 2`] = `
+{
+  "changed": false,
+  "length": 3.7416573867739413,
+  "values": [
+    1,
+    2,
+    3,
+  ],
+}
+`;
+
+exports[`InputAxis > should update correctly 3`] = `
+{
+  "changed": true,
+  "length": 3.7416573867739413,
+  "values": [
+    1,
+    2,
+    3,
+  ],
+}
+`;
+
+exports[`InputAxis > should update correctly 4`] = `
+{
+  "changed": false,
+  "length": 3.7416573867739413,
+  "values": [
+    1,
+    2,
+    3,
+  ],
+}
+`;

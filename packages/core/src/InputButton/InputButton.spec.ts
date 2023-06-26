@@ -1,51 +1,43 @@
 import { InputButton } from "./InputButton";
+import { describe, it, expect } from "vitest";
 
 describe("InputButton", () => {
     it("should update correctly", () => {
         const button = new InputButton();
 
-        expect(button.down).toEqual(false);
-        expect(button.wasDown).toEqual(false);
-        expect(button.click).toEqual(false);
-        expect(button.clicked).toEqual(false);
+        snapBtn(button);
 
         button.update();
 
-        expect(button.down).toEqual(false);
-        expect(button.wasDown).toEqual(false);
-        expect(button.click).toEqual(false);
-        expect(button.clicked).toEqual(false);
+        expect(snapBtn(button)).toMatchSnapshot();
 
         button.setDown(true);
 
         button.update();
 
-        expect(button.down).toEqual(true);
-        expect(button.wasDown).toEqual(false);
-        expect(button.click).toEqual(true);
-        expect(button.clicked).toEqual(false);
+        expect(snapBtn(button)).toMatchSnapshot();
 
         button.update();
 
-        expect(button.down).toEqual(true);
-        expect(button.wasDown).toEqual(true);
-        expect(button.click).toEqual(false);
-        expect(button.clicked).toEqual(true);
+        expect(snapBtn(button)).toMatchSnapshot();
 
         button.setDown(false);
 
         button.update();
 
-        expect(button.down).toEqual(false);
-        expect(button.wasDown).toEqual(true);
-        expect(button.click).toEqual(false);
-        expect(button.clicked).toEqual(false);
+        expect(snapBtn(button)).toMatchSnapshot();
 
         button.update();
 
-        expect(button.down).toEqual(false);
-        expect(button.wasDown).toEqual(false);
-        expect(button.click).toEqual(false);
-        expect(button.clicked).toEqual(false);
+        expect(snapBtn(button)).toMatchSnapshot();
     });
 });
+
+function snapBtn(button: InputButton): void {
+    expect({
+        down: button.down,
+        wasDown: button.wasDown,
+        click: button.click,
+        clicked: button.clicked,
+    }).toMatchSnapshot();
+}

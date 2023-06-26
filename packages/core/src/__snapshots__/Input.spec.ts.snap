@@ -1,0 +1,271 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Input > should update correctly 1`] = `undefined`;
+
+exports[`Input > should update correctly 2`] = `undefined`;
+
+exports[`Input > should update correctly 3`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": false,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 4`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    0,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 5`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": true,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 6`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    0,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 7`] = `
+InputButton {
+  "_down": true,
+  "_isSetDown": undefined,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 8`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    0,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 9`] = `
+InputButton {
+  "_down": true,
+  "_isSetDown": true,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 10`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    0,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 11`] = `
+InputButton {
+  "_down": true,
+  "_isSetDown": undefined,
+  "_wasDown": true,
+}
+`;
+
+exports[`Input > should update correctly 12`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    0,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 13`] = `
+InputButton {
+  "_down": true,
+  "_isSetDown": undefined,
+  "_wasDown": true,
+}
+`;
+
+exports[`Input > should update correctly 14`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    0,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 15`] = `
+InputButton {
+  "_down": true,
+  "_isSetDown": false,
+  "_wasDown": true,
+}
+`;
+
+exports[`Input > should update correctly 16`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    0,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 17`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": undefined,
+  "_wasDown": true,
+}
+`;
+
+exports[`Input > should update correctly 18`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    0,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 19`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": undefined,
+  "_wasDown": true,
+}
+`;
+
+exports[`Input > should update correctly 20`] = `
+InputAxis {
+  "_changed": 2,
+  "_values": [
+    12,
+    23,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 21`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": undefined,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 22`] = `
+InputAxis {
+  "_changed": 1,
+  "_values": [
+    12,
+    23,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 23`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": undefined,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 24`] = `
+InputAxis {
+  "_changed": 2,
+  "_values": [
+    995,
+    124,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 25`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": undefined,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 26`] = `
+InputAxis {
+  "_changed": 1,
+  "_values": [
+    995,
+    124,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 27`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": undefined,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 28`] = `
+InputAxis {
+  "_changed": 2,
+  "_values": [
+    534,
+    63,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 29`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": undefined,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 30`] = `
+InputAxis {
+  "_changed": 1,
+  "_values": [
+    534,
+    63,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 31`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": undefined,
+  "_wasDown": false,
+}
+`;
+
+exports[`Input > should update correctly 32`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    534,
+    63,
+  ],
+}
+`;
+
+exports[`Input > should update correctly 33`] = `undefined`;
+
+exports[`Input > should update correctly 34`] = `undefined`;

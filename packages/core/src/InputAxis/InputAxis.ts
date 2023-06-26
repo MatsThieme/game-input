@@ -1,4 +1,4 @@
-type NumberTuple = [number, ...number[]];
+type NumberTuple = [...number[]];
 
 export class InputAxis<T extends NumberTuple = NumberTuple> {
     private _values: T;

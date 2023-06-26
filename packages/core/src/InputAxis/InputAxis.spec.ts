@@ -1,36 +1,45 @@
 import { InputAxis } from "./InputAxis";
+import { describe, it, expect } from "vitest";
 
 describe("InputAxis", () => {
     it.each([
-        [new InputAxis(), 0],
-        [new InputAxis(0), 0],
-        [new InputAxis([0]), 0],
-        [new InputAxis([0, 0]), 0],
-        [new InputAxis(1), 1],
-        [new InputAxis([1]), 1],
-        [new InputAxis([1, 0]), 1],
-        [new InputAxis([0, 1]), 1],
-        [new InputAxis([0.7, 0.7]), Math.sqrt(0.7 ** 2 * 2)],
-        [new InputAxis([0.7, 0.7, 1, 1, 1, 1]), Math.sqrt(0.7 ** 2 * 2 + 4)],
-    ])("should calculate the length of its values", (axis: InputAxis, length: number) => {
-        expect(axis.getLength()).toBeCloseTo(length, 10);
+        [new InputAxis()],
+        [new InputAxis(0)],
+        [new InputAxis([0])],
+        [new InputAxis([0, 0])],
+        [new InputAxis(1)],
+        [new InputAxis([1])],
+        [new InputAxis([1, 0])],
+        [new InputAxis([0, 1])],
+        [new InputAxis([0.7, 0.7])],
+        [new InputAxis([0.7, 0.7, 1, 1, 1, 1])],
+    ])("should calculate the length of its values", (axis: InputAxis) => {
+        snapAxis(axis);
     });
 
     it("should update correctly", () => {
         const axis = new InputAxis();
 
-        expect(axis.changed).toBeFalsy();
+        snapAxis(axis);
 
         axis.setValues([1, 2, 3]);
 
-        expect(axis.changed).toBeFalsy();
+        snapAxis(axis);
 
         axis.update();
 
-        expect(axis.changed).toBeTruthy();
+        snapAxis(axis);
 
         axis.update();
 
-        expect(axis.changed).toBeFalsy();
+        snapAxis(axis);
     });
 });
+
+function snapAxis(axis: InputAxis): void {
+    expect({
+        changed: axis.changed,
+        length: axis.getLength(),
+        values: axis.getValues(),
+    }).toMatchSnapshot();
+}

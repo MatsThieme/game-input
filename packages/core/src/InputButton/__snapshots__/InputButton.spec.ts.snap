@@ -1,0 +1,65 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`InputButton > should update correctly 1`] = `
+{
+  "click": false,
+  "clicked": false,
+  "down": false,
+  "wasDown": false,
+}
+`;
+
+exports[`InputButton > should update correctly 2`] = `
+{
+  "click": false,
+  "clicked": false,
+  "down": false,
+  "wasDown": false,
+}
+`;
+
+exports[`InputButton > should update correctly 3`] = `undefined`;
+
+exports[`InputButton > should update correctly 4`] = `
+{
+  "click": true,
+  "clicked": false,
+  "down": true,
+  "wasDown": false,
+}
+`;
+
+exports[`InputButton > should update correctly 5`] = `undefined`;
+
+exports[`InputButton > should update correctly 6`] = `
+{
+  "click": false,
+  "clicked": true,
+  "down": true,
+  "wasDown": true,
+}
+`;
+
+exports[`InputButton > should update correctly 7`] = `undefined`;
+
+exports[`InputButton > should update correctly 8`] = `
+{
+  "click": false,
+  "clicked": false,
+  "down": false,
+  "wasDown": true,
+}
+`;
+
+exports[`InputButton > should update correctly 9`] = `undefined`;
+
+exports[`InputButton > should update correctly 10`] = `
+{
+  "click": false,
+  "clicked": false,
+  "down": false,
+  "wasDown": false,
+}
+`;
+
+exports[`InputButton > should update correctly 11`] = `undefined`;
