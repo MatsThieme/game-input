@@ -24,6 +24,8 @@ export class Input<
     private readonly _frameInputButtonCache: Partial<Record<ButtonActions, Readonly<InputButton>>>;
     private readonly _frameInputAxisCache: Partial<Record<AxisActions, InputAxis>>;
 
+    private _initialized = false;
+
     public constructor(
         adapters: Adapters,
         mappingButtons: ButtonMapping,
@@ -38,9 +40,15 @@ export class Input<
     }
 
     public initialize(): void {
+        if (this._initialized) {
+            console.warn("Input.initialize: Input is already initialized");
+        }
+
         for (const adapter in this._adapters) {
             this._adapters[adapter].initialize();
         }
+
+        this._initialized = true;
     }
 
     public getAdapter<AdapterName extends keyof Adapters>(
@@ -56,6 +64,10 @@ export class Input<
         T extends ButtonActions,
         U extends GetInputButtonForAdapter<GetAdaptersForAction<T, ButtonMapping, Adapters>>
     >(action: T): Readonly<U> | undefined {
+        if (!this._initialized) {
+            console.warn("Input.getButton: Input is not initialized");
+        }
+
         if (this._frameInputButtonCache[action]) {
             return this._frameInputButtonCache[action] as U;
         }
@@ -63,7 +75,13 @@ export class Input<
         let button: Readonly<U> | undefined;
 
         for (const adapter in this._adapters) {
-            const mappedTo = this._mappingButtons[adapter]?.[action];
+            const adapterMapping = this._mappingButtons[adapter];
+
+            if (!adapterMapping) {
+                continue;
+            }
+
+            const mappedTo = adapterMapping[action];
 
             if (!mappedTo) {
                 continue;
@@ -98,6 +116,10 @@ export class Input<
         T extends AxisActions,
         U extends GetInputAxisForAdapter<GetAdaptersForAction<T, AxisMapping, Adapters>>
     >(action: T): Readonly<U> | undefined {
+        if (!this._initialized) {
+            console.warn("Input.getAxis: Input is not initialized");
+        }
+
         if (this._frameInputAxisCache[action]) {
             return this._frameInputAxisCache[action] as U;
         }
@@ -105,7 +127,13 @@ export class Input<
         let axis: Readonly<U> | undefined;
 
         for (const adapter in this._adapters) {
-            const mappedTo = this._mappingAxes[adapter]?.[action];
+            const adapterMapping = this._mappingAxes[adapter];
+
+            if (!adapterMapping) {
+                continue;
+            }
+
+            const mappedTo = adapterMapping[action];
 
             if (!mappedTo) {
                 continue;
@@ -130,6 +158,10 @@ export class Input<
     }
 
     public update(): void {
+        if (!this._initialized) {
+            console.warn("Input.update: Input is not initialized");
+        }
+
         for (const adapter in this._adapters) {
             this._adapters[adapter].update();
         }
@@ -151,10 +183,16 @@ export class Input<
      * Dispose all input adapters.
      */
     public dispose(): void {
+        if (!this._initialized) {
+            console.warn("Input.dispose: Input is not initialized");
+        }
+
         this._clearCache();
 
         for (const name in this._adapters) {
             this._adapters[name].dispose();
         }
+
+        this._initialized = false;
     }
 }

@@ -1,151 +1,132 @@
 import { Input } from "./Input";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { InputAdapter } from "./InputAdapter";
-import { InputAxis } from "./InputAxis/InputAxis";
-import { InputButton } from "./InputButton/InputButton";
 
 describe("Input", () => {
-    it("should update correctly", () => {
-        const eventSource = new ExternalEventSource();
-        const input = new Input(
-            {
-                test: new TestAdapter(eventSource),
-            },
-            {
-                test: {
-                    TestButton: TestAdapter.buttonKey,
-                },
-            },
-            {
-                test: {
-                    TestAxis: TestAdapter.axisKey,
-                },
-            }
-        );
+    it("should return the correct adapter", () => {
+        const adapter = {} as never;
 
-        const steps = [
-            (): void => input.initialize(),
-            (): void => eventSource.dispatch("click"),
-            (): void => input.update(),
-            (): void => eventSource.dispatch("click"),
-            (): void => input.update(),
-            (): void => input.update(),
-            (): void => eventSource.dispatch("release"),
-            (): void => input.update(),
-            (): void => eventSource.dispatch("move", [12, 23]),
-            (): void => input.update(),
-            (): void => eventSource.dispatch("move", [995, 124]),
-            (): void => input.update(),
-            (): void => eventSource.dispatch("move", [534, 63]),
-            (): void => input.update(),
-            (): void => input.update(),
-            (): void => input.dispose(),
-        ];
+        const input = new Input({ test: adapter }, {}, {});
 
-        snapInput();
+        expect(input.getAdapter("test")).toBe(adapter);
+    });
 
-        for (const step of steps) {
-            step();
+    it("should initialize adapters", () => {
+        const adapterInitializeFn = vi.fn();
 
-            snapInput();
-        }
+        const adapter = {
+            initialize: adapterInitializeFn,
+        } satisfies Pick<InputAdapter, "initialize"> as never;
 
-        function snapInput(): void {
-            expect(input.getButton("TestButton")).toMatchSnapshot();
-            expect(input.getAxis("TestAxis")).toMatchSnapshot();
-        }
+        const input = new Input({ test: adapter }, {}, {});
+
+        expect(adapterInitializeFn).toBeCalledTimes(0);
+
+        input.initialize();
+
+        expect(adapterInitializeFn).toBeCalledTimes(1);
+    });
+
+    it("should update and initializeadapters", () => {
+        const adapterUpdateFn = vi.fn();
+
+        const adapter = {
+            initialize: (): void => undefined,
+            update: adapterUpdateFn,
+        } satisfies Pick<InputAdapter, "initialize" | "update"> as never;
+
+        const input = new Input({ test: adapter }, {}, {});
+
+        expect(adapterUpdateFn).toBeCalledTimes(0);
+
+        input.initialize();
+
+        expect(adapterUpdateFn).toBeCalledTimes(0);
+
+        input.update();
+
+        expect(adapterUpdateFn).toBeCalledTimes(1);
+
+        input.update();
+
+        expect(adapterUpdateFn).toBeCalledTimes(2);
+    });
+
+    it("should dispose adapters", () => {
+        const adapterDisposeFn = vi.fn();
+
+        const adapter = {
+            dispose: adapterDisposeFn,
+        } satisfies Pick<InputAdapter, "dispose"> as never;
+
+        const input = new Input({ test: adapter }, {}, {});
+
+        expect(adapterDisposeFn).toBeCalledTimes(0);
+
+        input.dispose();
+
+        expect(adapterDisposeFn).toBeCalledTimes(1);
+    });
+
+    it("should return an adapters input button", () => {
+        const adapterGetButtonFn = vi.fn();
+
+        const adapter = {
+            initialize: (): void => undefined,
+            update: (): void => undefined,
+            dispose: (): void => undefined,
+            getButton: adapterGetButtonFn,
+        } satisfies Pick<InputAdapter, "initialize" | "update" | "dispose" | "getButton"> as never;
+
+        const input = new Input({ test: adapter }, { test: { test: "test" } }, {});
+
+        expect(adapterGetButtonFn).toBeCalledTimes(0);
+
+        input.initialize();
+
+        expect(adapterGetButtonFn).toBeCalledTimes(0);
+
+        input.getButton("test");
+
+        expect(adapterGetButtonFn).toBeCalledTimes(1);
+
+        input.update();
+
+        expect(adapterGetButtonFn).toBeCalledTimes(1);
+
+        input.dispose();
+
+        expect(adapterGetButtonFn).toBeCalledTimes(1);
+    });
+
+    it("should return an adapters input axis", () => {
+        const adapterGetAxisFn = vi.fn();
+
+        const adapter = {
+            initialize: (): void => undefined,
+            update: (): void => undefined,
+            dispose: (): void => undefined,
+            getAxis: adapterGetAxisFn,
+        } satisfies Pick<InputAdapter, "initialize" | "update" | "dispose" | "getAxis"> as never;
+
+        const input = new Input({ test: adapter }, {}, { test: { test: "test" } });
+
+        expect(adapterGetAxisFn).toBeCalledTimes(0);
+
+        input.initialize();
+
+        expect(adapterGetAxisFn).toBeCalledTimes(0);
+
+        input.getAxis("test");
+
+        expect(adapterGetAxisFn).toBeCalledTimes(1);
+
+        input.update();
+
+        expect(adapterGetAxisFn).toBeCalledTimes(1);
+
+        input.dispose();
+
+        expect(adapterGetAxisFn).toBeCalledTimes(1);
     });
 });
-
-class TestAdapter implements InputAdapter {
-    public static readonly buttonKey = "TestAdapter-buttonKey";
-    public static readonly axisKey = "TestAdapter-axisKey";
-
-    private readonly _eventSource: ExternalEventSource;
-
-    private _button?: InputButton;
-    private _axis?: InputAxis;
-
-    private readonly _clickListener = (): void => {
-        this._button?.setDown(true);
-    };
-    private readonly _releaseListener = (): void => {
-        this._button?.setDown(false);
-    };
-
-    private readonly _moveListener = (value?: number[] | undefined): void => {
-        if (value) {
-            this._axis?.setValues(value);
-        }
-    };
-
-    public constructor(eventSource: ExternalEventSource) {
-        this._eventSource = eventSource;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public initialize(): void {
-        this._button = new InputButton();
-        this._axis = new InputAxis();
-        this._eventSource.addListener("click", this._clickListener);
-        this._eventSource.addListener("release", this._releaseListener);
-        this._eventSource.addListener("move", this._moveListener);
-    }
-
-    public getButton(key: "TestAdapter-buttonKey"): Readonly<InputButton> | undefined {
-        if (key === TestAdapter.buttonKey) {
-            return this._button;
-        }
-    }
-
-    public getAxis(key: "TestAdapter-axisKey"): Readonly<InputAxis<number[]>> | undefined {
-        if (key === TestAdapter.axisKey) {
-            return this._axis;
-        }
-    }
-
-    public update(): void {
-        this._button?.update();
-        this._axis?.update();
-    }
-
-    public dispose(): void {
-        this._button = undefined;
-        this._axis = undefined;
-
-        this._eventSource.removeListener("click", this._clickListener);
-        this._eventSource.removeListener("release", this._releaseListener);
-        this._eventSource.removeListener("move", this._moveListener);
-    }
-}
-
-type EventType = "click" | "release" | "move";
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-class ExternalEventSource<T extends (...args: any[]) => unknown = (...args: any[]) => unknown> {
-    private readonly _listeners: {
-        [K in EventType]: T[];
-    } = {
-        click: [],
-        release: [],
-        move: [],
-    };
-
-    public addListener(event: EventType, cb: T): void {
-        this._listeners[event].push(cb);
-    }
-
-    public removeListener(event: EventType, cb: T): void {
-        const index = this._listeners[event].indexOf(cb);
-
-        if (index !== -1) {
-            this._listeners[event].splice(index, 1);
-        }
-    }
-
-    public dispatch<E extends EventType>(
-        event: E,
-        value?: E extends "move" ? number[] : undefined
-    ): void {
-        this._listeners[event].forEach((cb) => cb(value));
-    }
-}
