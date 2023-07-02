@@ -5,16 +5,14 @@
         "plugin:@typescript-eslint/recommended"
     ],
     "parserOptions": {
-        // "project": ["./packages/**/tsconfig.json"]
+        "project": ["./tsconfig.json", "./packages/**/tsconfig.json"]
     },
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint", "es", "only-warn"],
+    "plugins": ["@typescript-eslint", "only-warn"],
     "root": true,
     "rules": {
         "curly": ["error", "all"],
         "padding-line-between-statements": ["error"],
-
-        "es/no-keyword-properties": ["error"],
 
         "@typescript-eslint/no-non-null-assertion": ["off"],
         "@typescript-eslint/no-inferrable-types": ["off"],

@@ -26,8 +26,8 @@
         "@game-input/core": "workspace:packages/core"
     },
     "devDependencies": {
-        "tslib": "^2.5.2",
-        "typescript": "^5.1.3",
-        "vitest": "^0.31.1"
+        "tslib": "^2.6.0",
+        "typescript": "^5.1.6",
+        "vitest": "^0.32.2"
     }
 }
