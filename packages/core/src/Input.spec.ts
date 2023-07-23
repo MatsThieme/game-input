@@ -1,45 +1,18 @@
 import { Input } from "./Input";
 import { describe, it, expect, vi } from "vitest";
 import { InputAdapter } from "./InputAdapter";
+import { InputAxis } from "./InputAxis/InputAxis";
+import { InputButton } from "./InputButton/InputButton";
 
 describe("Input", () => {
-    it("should return the correct adapter", () => {
-        const adapter = {} as never;
-
-        const input = new Input({ test: adapter }, {}, {});
-
-        expect(input.getAdapter("test")).toBe(adapter);
-    });
-
-    it("should initialize adapters", () => {
-        const adapterInitializeFn = vi.fn();
-
-        const adapter = {
-            initialize: adapterInitializeFn,
-        } satisfies Pick<InputAdapter, "initialize"> as never;
-
-        const input = new Input({ test: adapter }, {}, {});
-
-        expect(adapterInitializeFn).toBeCalledTimes(0);
-
-        input.initialize();
-
-        expect(adapterInitializeFn).toBeCalledTimes(1);
-    });
-
     it("should update and initializeadapters", () => {
         const adapterUpdateFn = vi.fn();
 
         const adapter = {
-            initialize: (): void => undefined,
             update: adapterUpdateFn,
-        } satisfies Pick<InputAdapter, "initialize" | "update"> as never;
+        } satisfies Pick<InputAdapter, "update"> as never;
 
-        const input = new Input({ test: adapter }, {}, {});
-
-        expect(adapterUpdateFn).toBeCalledTimes(0);
-
-        input.initialize();
+        const input = new Input({ test: (): InputAdapter => adapter }, {}, {});
 
         expect(adapterUpdateFn).toBeCalledTimes(0);
 
@@ -59,7 +32,7 @@ describe("Input", () => {
             dispose: adapterDisposeFn,
         } satisfies Pick<InputAdapter, "dispose"> as never;
 
-        const input = new Input({ test: adapter }, {}, {});
+        const input = new Input({ test: (): InputAdapter => adapter }, {}, {});
 
         expect(adapterDisposeFn).toBeCalledTimes(0);
 
@@ -72,17 +45,16 @@ describe("Input", () => {
         const adapterGetButtonFn = vi.fn();
 
         const adapter = {
-            initialize: (): void => undefined,
             update: (): void => undefined,
             dispose: (): void => undefined,
             getButton: adapterGetButtonFn,
-        } satisfies Pick<InputAdapter, "initialize" | "update" | "dispose" | "getButton"> as never;
+        } satisfies Pick<InputAdapter, "update" | "dispose" | "getButton"> as never;
 
-        const input = new Input({ test: adapter }, { test: { test: "test" } }, {});
-
-        expect(adapterGetButtonFn).toBeCalledTimes(0);
-
-        input.initialize();
+        const input = new Input(
+            { test: (): InputAdapter => adapter },
+            { test: { test: "test" } },
+            {}
+        );
 
         expect(adapterGetButtonFn).toBeCalledTimes(0);
 
@@ -103,17 +75,16 @@ describe("Input", () => {
         const adapterGetAxisFn = vi.fn();
 
         const adapter = {
-            initialize: (): void => undefined,
             update: (): void => undefined,
             dispose: (): void => undefined,
             getAxis: adapterGetAxisFn,
-        } satisfies Pick<InputAdapter, "initialize" | "update" | "dispose" | "getAxis"> as never;
+        } satisfies Pick<InputAdapter, "update" | "dispose" | "getAxis"> as never;
 
-        const input = new Input({ test: adapter }, {}, { test: { test: "test" } });
-
-        expect(adapterGetAxisFn).toBeCalledTimes(0);
-
-        input.initialize();
+        const input = new Input(
+            { test: (): InputAdapter => adapter },
+            {},
+            { test: { test: "test" } }
+        );
 
         expect(adapterGetAxisFn).toBeCalledTimes(0);
 
@@ -128,5 +99,56 @@ describe("Input", () => {
         input.dispose();
 
         expect(adapterGetAxisFn).toBeCalledTimes(1);
+    });
+
+    it("should get buttons and axes using getAdapterButton and getAdapterAxis without an input mapping", () => {
+        class TestInputAdapter
+            implements InputAdapter<"testButton1" | "testButton2", "testAxis1" | "testAxis2">
+        {
+            private _testButton1?: InputButton;
+            private _testButton2?: InputButton;
+            private _testAxis1?: InputAxis;
+            private _testAxis2?: InputAxis;
+
+            public constructor() {
+                this._testButton1 = new InputButton();
+                this._testButton2 = new InputButton();
+                this._testAxis1 = new InputAxis();
+                this._testAxis2 = new InputAxis();
+            }
+
+            public getButton(
+                key: "testButton1" | "testButton2"
+            ): Readonly<InputButton> | undefined {
+                return this[`_${key}`];
+            }
+            public getAxis(
+                key: "testAxis1" | "testAxis2"
+            ): Readonly<InputAxis<number[]>> | undefined {
+                return this[`_${key}`];
+            }
+            public update(): void {
+                throw new Error("Method not implemented.");
+            }
+            public dispose(): void {
+                throw new Error("Method not implemented.");
+            }
+        }
+
+        const input = new Input(
+            { test: (): TestInputAdapter => new TestInputAdapter() },
+            { test: { btn1: "testButton1", btn2: "testButton2" } },
+            { test: { axis1: "testAxis1", axis2: "testAxis2" } }
+        );
+
+        expect(input.getAdapterButton("test", "testButton1")).toBe(input.getButton("btn1"));
+        expect(input.getAdapterButton("test", "testButton1")).not.toBe(input.getButton("btn2"));
+        expect(input.getAdapterButton("test", "testButton2")).toBe(input.getButton("btn2"));
+        expect(input.getAdapterButton("test", "testButton2")).not.toBe(input.getButton("btn1"));
+
+        expect(input.getAdapterAxis("test", "testAxis1")).toBe(input.getAxis("axis1"));
+        expect(input.getAdapterAxis("test", "testAxis1")).not.toBe(input.getAxis("axis2"));
+        expect(input.getAdapterAxis("test", "testAxis2")).toBe(input.getAxis("axis2"));
+        expect(input.getAdapterAxis("test", "testAxis2")).not.toBe(input.getAxis("axis1"));
     });
 });

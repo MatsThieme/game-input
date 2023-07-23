@@ -21,9 +21,8 @@ export class Touch<
     private _element: HTMLElement;
 
     /**
-     *
-     * @param invalidateAfterUpdates The number of updates before a unused touch-point is considered invalid.
-     * @param element The dom element to listen for touch events.
+     * @param {number} [invalidateAfterUpdates=5] The number of updates before a unused touch-point is considered invalid.
+     * @param {HTMLElement} [element=document.body] The dom element to listen for touch events.
      */
     public constructor(invalidateAfterUpdates: number = 5, element: HTMLElement = document.body) {
         this._invalidateAfterUpdates = invalidateAfterUpdates;
@@ -34,9 +33,6 @@ export class Touch<
         this._onTouchStart = this._onTouchStart.bind(this);
         this._onTouchMove = this._onTouchMove.bind(this);
         this._onTouchEnd = this._onTouchEnd.bind(this);
-    }
-
-    public initialize(): void {
         this._element.addEventListener("touchstart", this._onTouchStart);
         this._element.addEventListener("touchmove", this._onTouchMove);
         this._element.addEventListener("touchend", this._onTouchEnd);
@@ -66,7 +62,10 @@ export class Touch<
     public update(): void {
         for (let i = 0; i < this._touches.length; i++) {
             if (this._touches[i] && this._touches[i].valid > 0) {
-                this._touches[i].valid <= this._invalidateAfterUpdates && this._touches[i].valid--;
+                if (this._touches[i].valid <= this._invalidateAfterUpdates) {
+                    this._touches[i].valid--;
+                }
+
                 this._touches[i].button.update();
                 this._touches[i].axis.update();
             }

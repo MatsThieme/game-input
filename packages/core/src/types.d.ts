@@ -30,13 +30,13 @@ export type MappedAxes<Adapters extends Record<string, InputAdapter>> = {
 
 type GetAdapterNamesForAction<Action extends string, Mapping extends MappingType> = string &
     keyof {
-        [K in keyof Mapping as Mapping[K] extends { [ZZZ in keyof Action]: unknown }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        [K in keyof Mapping as Mapping[K] extends { [ZZZ in keyof Action]: any }
             ? Exclude<unknown, Mapping[K][Action]> extends never
                 ? never
                 : never
-            : K]: Mapping[K] extends { [ZZZ in keyof Action]: unknown }
-            ? Mapping[K][Action]
-            : never;
+            : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              K]: Mapping[K] extends { [ZZZ in keyof Action]: any } ? Mapping[K][Action] : never;
     };
 
 export type GetAdaptersForAction<
@@ -69,6 +69,51 @@ export type GetInputAxisForAdapter<T extends InputAdapter> = T extends InputAdap
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     infer X extends InputAxis
+>
+    ? X
+    : never;
+
+export type GetAdapterButtonActions<Adapter extends InputAdapter> = Adapter extends InputAdapter<
+    infer X,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any
+>
+    ? X
+    : never;
+export type GetAdapterAxisActions<Adapter extends InputAdapter> = Adapter extends InputAdapter<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    infer X,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any
+>
+    ? X
+    : never;
+export type GetAdapterButton<Adapter extends InputAdapter> = Adapter extends InputAdapter<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    infer X,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any
+>
+    ? X
+    : never;
+export type GetAdapterAxis<Adapter extends InputAdapter> = Adapter extends InputAdapter<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    infer X
 >
     ? X
     : never;

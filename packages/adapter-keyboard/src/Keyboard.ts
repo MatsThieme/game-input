@@ -17,7 +17,7 @@ export class Keyboard<
     >;
 
     /**
-     * @param element element for attaching event listeners to
+     * @param {HTMLElement} [element=document.body] element to attach event listeners to
      */
     public constructor(element: HTMLElement = document.body) {
         this._element = element;
@@ -28,11 +28,6 @@ export class Keyboard<
 
         this._onKeyDown = this._onKeyDown.bind(this);
         this._onKeyUp = this._onKeyUp.bind(this);
-    }
-
-    public initialize(): void {
-        this._resetValues();
-
         this._element.addEventListener("keydown", this._onKeyDown);
         this._element.addEventListener("keyup", this._onKeyUp);
     }
@@ -96,7 +91,9 @@ export class Keyboard<
             return;
         }
 
-        return (this._axesParsedCache[axis] = keys);
+        this._axesParsedCache[axis] = keys;
+
+        return this._axesParsedCache[axis];
     }
 
     public update(): void {
@@ -121,23 +118,5 @@ export class Keyboard<
     public dispose(): void {
         this._element.removeEventListener("keydown", this._onKeyDown);
         this._element.removeEventListener("keyup", this._onKeyUp);
-
-        this._resetValues();
-    }
-
-    private _resetValues(): void {
-        for (const button in this._keys) {
-            (this._keys[button as KeyboardButton] as InputButton).setDown(false);
-            (this._keys[button as KeyboardButton] as InputButton).update();
-        }
-
-        for (const axis in this._axes) {
-            (this._axes[axis as KeyboardAxis] as InputAxis).setValues(
-                (this._axes[axis as KeyboardAxis] as InputAxis).getValues().map(() => 0) as [
-                    number,
-                    ...number[]
-                ]
-            );
-        }
     }
 }

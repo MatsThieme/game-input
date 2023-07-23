@@ -1,13 +1,26 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InputAdapter > should update correctly 1`] = `undefined`;
+exports[`InputAdapter > should update correctly 1`] = `
+InputButton {
+  "_down": false,
+  "_isSetDown": true,
+  "_wasDown": false,
+}
+`;
 
-exports[`InputAdapter > should update correctly 2`] = `undefined`;
+exports[`InputAdapter > should update correctly 2`] = `
+InputAxis {
+  "_changed": 0,
+  "_values": [
+    0,
+  ],
+}
+`;
 
 exports[`InputAdapter > should update correctly 3`] = `
 InputButton {
-  "_down": false,
-  "_isSetDown": false,
+  "_down": true,
+  "_isSetDown": undefined,
   "_wasDown": false,
 }
 `;
@@ -23,7 +36,7 @@ InputAxis {
 
 exports[`InputAdapter > should update correctly 5`] = `
 InputButton {
-  "_down": false,
+  "_down": true,
   "_isSetDown": true,
   "_wasDown": false,
 }
@@ -42,7 +55,7 @@ exports[`InputAdapter > should update correctly 7`] = `
 InputButton {
   "_down": true,
   "_isSetDown": undefined,
-  "_wasDown": false,
+  "_wasDown": true,
 }
 `;
 
@@ -58,8 +71,8 @@ InputAxis {
 exports[`InputAdapter > should update correctly 9`] = `
 InputButton {
   "_down": true,
-  "_isSetDown": true,
-  "_wasDown": false,
+  "_isSetDown": undefined,
+  "_wasDown": true,
 }
 `;
 
@@ -75,7 +88,7 @@ InputAxis {
 exports[`InputAdapter > should update correctly 11`] = `
 InputButton {
   "_down": true,
-  "_isSetDown": undefined,
+  "_isSetDown": false,
   "_wasDown": true,
 }
 `;
@@ -91,7 +104,7 @@ InputAxis {
 
 exports[`InputAdapter > should update correctly 13`] = `
 InputButton {
-  "_down": true,
+  "_down": false,
   "_isSetDown": undefined,
   "_wasDown": true,
 }
@@ -108,17 +121,18 @@ InputAxis {
 
 exports[`InputAdapter > should update correctly 15`] = `
 InputButton {
-  "_down": true,
-  "_isSetDown": false,
+  "_down": false,
+  "_isSetDown": undefined,
   "_wasDown": true,
 }
 `;
 
 exports[`InputAdapter > should update correctly 16`] = `
 InputAxis {
-  "_changed": 0,
+  "_changed": 2,
   "_values": [
-    0,
+    12,
+    23,
   ],
 }
 `;
@@ -127,15 +141,16 @@ exports[`InputAdapter > should update correctly 17`] = `
 InputButton {
   "_down": false,
   "_isSetDown": undefined,
-  "_wasDown": true,
+  "_wasDown": false,
 }
 `;
 
 exports[`InputAdapter > should update correctly 18`] = `
 InputAxis {
-  "_changed": 0,
+  "_changed": 1,
   "_values": [
-    0,
+    12,
+    23,
   ],
 }
 `;
@@ -144,7 +159,7 @@ exports[`InputAdapter > should update correctly 19`] = `
 InputButton {
   "_down": false,
   "_isSetDown": undefined,
-  "_wasDown": true,
+  "_wasDown": false,
 }
 `;
 
@@ -152,8 +167,8 @@ exports[`InputAdapter > should update correctly 20`] = `
 InputAxis {
   "_changed": 2,
   "_values": [
-    12,
-    23,
+    995,
+    124,
   ],
 }
 `;
@@ -170,8 +185,8 @@ exports[`InputAdapter > should update correctly 22`] = `
 InputAxis {
   "_changed": 1,
   "_values": [
-    12,
-    23,
+    995,
+    124,
   ],
 }
 `;
@@ -188,8 +203,8 @@ exports[`InputAdapter > should update correctly 24`] = `
 InputAxis {
   "_changed": 2,
   "_values": [
-    995,
-    124,
+    534,
+    63,
   ],
 }
 `;
@@ -206,8 +221,8 @@ exports[`InputAdapter > should update correctly 26`] = `
 InputAxis {
   "_changed": 1,
   "_values": [
-    995,
-    124,
+    534,
+    63,
   ],
 }
 `;
@@ -222,42 +237,6 @@ InputButton {
 
 exports[`InputAdapter > should update correctly 28`] = `
 InputAxis {
-  "_changed": 2,
-  "_values": [
-    534,
-    63,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 29`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 30`] = `
-InputAxis {
-  "_changed": 1,
-  "_values": [
-    534,
-    63,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 31`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 32`] = `
-InputAxis {
   "_changed": 0,
   "_values": [
     534,
@@ -265,273 +244,3 @@ InputAxis {
   ],
 }
 `;
-
-exports[`InputAdapter > should update correctly 33`] = `undefined`;
-
-exports[`InputAdapter > should update correctly 34`] = `undefined`;
-
-exports[`InputAdapter > should update correctly 35`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": false,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 36`] = `
-InputAxis {
-  "_changed": 0,
-  "_values": [
-    0,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 37`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": true,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 38`] = `
-InputAxis {
-  "_changed": 0,
-  "_values": [
-    0,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 39`] = `
-InputButton {
-  "_down": true,
-  "_isSetDown": undefined,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 40`] = `
-InputAxis {
-  "_changed": 0,
-  "_values": [
-    0,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 41`] = `
-InputButton {
-  "_down": true,
-  "_isSetDown": true,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 42`] = `
-InputAxis {
-  "_changed": 0,
-  "_values": [
-    0,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 43`] = `
-InputButton {
-  "_down": true,
-  "_isSetDown": undefined,
-  "_wasDown": true,
-}
-`;
-
-exports[`InputAdapter > should update correctly 44`] = `
-InputAxis {
-  "_changed": 0,
-  "_values": [
-    0,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 45`] = `
-InputButton {
-  "_down": true,
-  "_isSetDown": undefined,
-  "_wasDown": true,
-}
-`;
-
-exports[`InputAdapter > should update correctly 46`] = `
-InputAxis {
-  "_changed": 0,
-  "_values": [
-    0,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 47`] = `
-InputButton {
-  "_down": true,
-  "_isSetDown": false,
-  "_wasDown": true,
-}
-`;
-
-exports[`InputAdapter > should update correctly 48`] = `
-InputAxis {
-  "_changed": 0,
-  "_values": [
-    0,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 49`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": true,
-}
-`;
-
-exports[`InputAdapter > should update correctly 50`] = `
-InputAxis {
-  "_changed": 0,
-  "_values": [
-    0,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 51`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": true,
-}
-`;
-
-exports[`InputAdapter > should update correctly 52`] = `
-InputAxis {
-  "_changed": 2,
-  "_values": [
-    12,
-    23,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 53`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 54`] = `
-InputAxis {
-  "_changed": 1,
-  "_values": [
-    12,
-    23,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 55`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 56`] = `
-InputAxis {
-  "_changed": 2,
-  "_values": [
-    995,
-    124,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 57`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 58`] = `
-InputAxis {
-  "_changed": 1,
-  "_values": [
-    995,
-    124,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 59`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 60`] = `
-InputAxis {
-  "_changed": 2,
-  "_values": [
-    534,
-    63,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 61`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 62`] = `
-InputAxis {
-  "_changed": 1,
-  "_values": [
-    534,
-    63,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 63`] = `
-InputButton {
-  "_down": false,
-  "_isSetDown": undefined,
-  "_wasDown": false,
-}
-`;
-
-exports[`InputAdapter > should update correctly 64`] = `
-InputAxis {
-  "_changed": 0,
-  "_values": [
-    534,
-    63,
-  ],
-}
-`;
-
-exports[`InputAdapter > should update correctly 65`] = `undefined`;
-
-exports[`InputAdapter > should update correctly 66`] = `undefined`;

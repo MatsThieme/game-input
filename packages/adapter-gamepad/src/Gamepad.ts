@@ -21,13 +21,9 @@ export class Gamepad<
         this._gamepad = null;
 
         this._onGamepadChange = this._onGamepadChange.bind(this);
-    }
-
-    public initialize(): void {
-        this._onGamepadChange();
-
         window.addEventListener("gamepadconnected", this._onGamepadChange);
         window.addEventListener("gamepaddisconnected", this._onGamepadChange);
+        this._onGamepadChange();
     }
 
     public getButton(button: ActionMappedToButton): Readonly<InputButton> | undefined {
@@ -81,9 +77,11 @@ export class Gamepad<
             return;
         }
 
-        !this._axes[index] && (this._axes[index] = new InputAxis());
+        if (!this._axes[index]) {
+            this._axes[index] = new InputAxis();
+        }
 
-        const value = this._axes[index]?.getValues() as [number, ...number[]];
+        const value = this._axes[index]!.getValues().slice();
 
         // axes
         if (this._gamepad.axes[index] !== undefined) {
@@ -113,7 +111,13 @@ export class Gamepad<
     private _onGamepadChange(): void {
         this._gamepad = navigator.getGamepads()[this._index];
 
-        this._gamepad?.mapping !== "standard" && (this._gamepad = null);
+        if (this._gamepad && this._gamepad.mapping !== "standard") {
+            console.warn(
+                "No gamepad with mapping 'standard' found. This adapter only supports the 'standard' mapping."
+            );
+
+            this._gamepad = null;
+        }
     }
 
     public dispose(): void {

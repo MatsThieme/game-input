@@ -9,7 +9,7 @@ describe("InputAdapter", () => {
         const eventSource = new ExternalEventSource();
         const input = new Input(
             {
-                test: new TestAdapter(eventSource),
+                test: (): TestAdapter => new TestAdapter(eventSource),
             },
             {
                 test: {
@@ -24,7 +24,6 @@ describe("InputAdapter", () => {
         );
 
         const steps = [
-            (): void => input.initialize(),
             (): void => eventSource.dispatch("click"),
             (): void => input.update(),
             (): void => eventSource.dispatch("click"),
@@ -39,22 +38,14 @@ describe("InputAdapter", () => {
             (): void => eventSource.dispatch("move", [534, 63]),
             (): void => input.update(),
             (): void => input.update(),
-            (): void => input.dispose(),
         ];
 
-        snapInput();
-
         for (const step of steps) {
             step();
 
             snapInput();
         }
-
-        for (const step of steps) {
-            step();
-
-            snapInput();
-        }
+        input.dispose();
 
         function snapInput(): void {
             expect(input.getButton("TestButton")).toMatchSnapshot();
@@ -87,9 +78,7 @@ class TestAdapter implements InputAdapter {
 
     public constructor(eventSource: ExternalEventSource) {
         this._eventSource = eventSource;
-    }
 
-    public initialize(): void {
         this._button = new InputButton();
         this._axis = new InputAxis();
         this._eventSource.addListener("click", this._clickListener);

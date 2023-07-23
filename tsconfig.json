@@ -11,6 +11,8 @@
         "composite": true,
         "incremental": true,
 
+        "skipLibCheck": true,
+
         "paths": {
             "@game-input/core": ["./packages/core/dist"],
             "@game-input/adapter-gamepad": ["./packages/adapter-gamepad/dist"],

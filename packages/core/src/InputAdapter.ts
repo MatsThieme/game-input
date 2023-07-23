@@ -11,12 +11,6 @@ export interface InputAdapter<
     AdapterInputAxis extends InputAxis = InputAxis
 > {
     /**
-     * @internal
-     * initialize listeners and InputButtons/-Axis
-     */
-    initialize(): void;
-
-    /**
      * Get an InputButton object for the specified input of the corresponding adapter.
      *
      * @param key a unique identifier for an input.
