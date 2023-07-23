@@ -1,0 +1,16 @@
+{
+    "private": true,
+    "description": "",
+    "scripts": {
+        "dev": "vite"
+    },
+    "dependencies": {
+        "@game-input/adapter-keyboard": "workspace:^",
+        "@game-input/adapter-mouse": "workspace:^",
+        "@game-input/core": "workspace:^",
+        "pixi.js": "^7.2.4"
+    },
+    "devDependencies": {
+        "vite": "^4.3.9"
+    }
+}
