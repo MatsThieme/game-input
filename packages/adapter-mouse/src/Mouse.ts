@@ -11,29 +11,31 @@ export class Mouse<
     private readonly _element: HTMLElement;
 
     private readonly _buttons: (InputButton | undefined)[];
-    private readonly _axes: Record<MouseAxis, InputAxis>;
+    private readonly _axes: {
+        [MouseAxis.Position]: InputAxis;
+        [MouseAxis.PositionHorizontal]: InputAxis;
+        [MouseAxis.PositionVertical]: InputAxis;
+        [MouseAxis.Movement]?: InputAxis;
+    };
+
+    private _mouseMovedThisFrame = false;
 
     /**
-     * @param element element for attaching event listeners to
+     * @param {HTMLElement} [element=document.body] element to attach event listeners to
      */
     public constructor(element: HTMLElement = document.body) {
         this._element = element;
 
         this._buttons = [];
         this._axes = {
-            [MouseAxis.Position]: new InputAxis(),
-            [MouseAxis.PositionHorizontal]: new InputAxis(),
-            [MouseAxis.PositionVertical]: new InputAxis(),
+            [MouseAxis.Position]: new InputAxis([0, 0]),
+            [MouseAxis.PositionHorizontal]: new InputAxis(0),
+            [MouseAxis.PositionVertical]: new InputAxis(0),
         };
 
         this._onMouseMove = this._onMouseMove.bind(this);
         this._onMouseDown = this._onMouseDown.bind(this);
         this._onMouseUp = this._onMouseUp.bind(this);
-    }
-
-    public initialize(): void {
-        this._resetValues();
-
         this._element.addEventListener("mousedown", this._onMouseDown);
         this._element.addEventListener("mouseup", this._onMouseUp);
         this._element.addEventListener("mousemove", this._onMouseMove);
@@ -44,6 +46,10 @@ export class Mouse<
     }
 
     public getAxis(axis: ActionMappedToAxis): Readonly<InputAxis> | undefined {
+        if (!this._axes[axis] && axis === MouseAxis.Movement) {
+            this._axes[axis] = new InputAxis([0, 0]);
+        }
+
         return this._axes[axis];
     }
 
@@ -55,10 +61,25 @@ export class Mouse<
         this._axes[MouseAxis.Position].update();
         this._axes[MouseAxis.PositionHorizontal].update();
         this._axes[MouseAxis.PositionVertical].update();
+
+        if (this._axes[MouseAxis.Movement]) {
+            this._axes[MouseAxis.Movement].update();
+
+            if (!this._mouseMovedThisFrame) {
+                this._axes[MouseAxis.Movement].setValues([0, 0]);
+            }
+
+            this._mouseMovedThisFrame = false;
+        }
     }
 
     private _onMouseMove(event: MouseEvent): void {
         event.stopPropagation();
+
+        if (this._axes[MouseAxis.Movement]) {
+            this._axes[MouseAxis.Movement].setValues([event.movementX, event.movementY]);
+            this._mouseMovedThisFrame = true;
+        }
 
         this._setPosition(event.clientX, event.clientY);
     }
@@ -107,21 +128,5 @@ export class Mouse<
         this._element.removeEventListener("mousedown", this._onMouseDown);
         this._element.removeEventListener("mouseup", this._onMouseUp);
         this._element.removeEventListener("mousemove", this._onMouseMove);
-
-        this._resetValues();
-    }
-
-    /**
-     * reset buttons and axes
-     */
-    private _resetValues(): void {
-        for (let i = 0; i < this._buttons.length; i++) {
-            this._buttons[i]?.setDown(false);
-            this._buttons[i]?.update();
-        }
-
-        this._axes[MouseAxis.Position].setValues([0, 0]);
-        this._axes[MouseAxis.PositionHorizontal].setValues([0]);
-        this._axes[MouseAxis.PositionVertical].setValues([0]);
     }
 }
