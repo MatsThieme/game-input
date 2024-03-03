@@ -2581,18 +2581,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"local-multiplayer-26e5f2@workspace:examples/local-multiplayer":
-  version: 0.0.0-use.local
-  resolution: "local-multiplayer-26e5f2@workspace:examples/local-multiplayer"
-  dependencies:
-    "@game-input/adapter-keyboard": "workspace:*"
-    "@game-input/adapter-mouse": "workspace:*"
-    "@game-input/core": "workspace:*"
-    pixi.js: "npm:^7.4.0"
-    vite: "npm:^5.1.4"
-  languageName: unknown
-  linkType: soft
-
 "local-pkg@npm:^0.4.3":
   version: 0.4.3
   resolution: "local-pkg@npm:0.4.3"
@@ -2844,6 +2832,19 @@ __metadata:
   checksum: 10/0cd6b919159a55ea9bdb4b66657e1f557c388bb6a0ef615baa697728656b5ca266e6ed2d2494fe4a839dc1425f49404b016d4f1e41f4b157a5363ffa7d7cea84
   languageName: node
   linkType: hard
+
+"mouse-axis-86d50c@workspace:examples/mouse-axis":
+  version: 0.0.0-use.local
+  resolution: "mouse-axis-86d50c@workspace:examples/mouse-axis"
+  dependencies:
+    "@game-input/adapter-keyboard": "workspace:*"
+    "@game-input/adapter-mouse": "workspace:*"
+    "@game-input/core": "workspace:*"
+    pixi.js: "npm:^7.4.0"
+    typescript: "npm:5.3.3"
+    vite: "npm:^5.1.4"
+  languageName: unknown
+  linkType: soft
 
 "ms@npm:2.1.2":
   version: 2.1.2
@@ -3681,7 +3682,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~5.3.3":
+"typescript@npm:5.3.3, typescript@npm:~5.3.3":
   version: 5.3.3
   resolution: "typescript@npm:5.3.3"
   bin:
@@ -3691,7 +3692,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A~5.3.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A~5.3.3#optional!builtin<compat/typescript>":
   version: 5.3.3
   resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
   bin:

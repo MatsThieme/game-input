@@ -1,6 +1,5 @@
 {
     "private": true,
-    "description": "",
     "scripts": {
         "dev": "vite"
     },
@@ -11,6 +10,7 @@
         "pixi.js": "^7.4.0"
     },
     "devDependencies": {
+        "typescript": "5.3.3",
         "vite": "^5.1.4"
     }
 }

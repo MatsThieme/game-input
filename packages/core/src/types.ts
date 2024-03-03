@@ -24,7 +24,8 @@ export type MappedButtons<Adapters extends Record<string, InputAdapter>> = {
 export type MappedAxes<Adapters extends Record<string, InputAdapter>> = {
     [K in keyof Adapters]?: Record<
         string,
-        Adapters[K] extends InputAdapter<string | number, infer X> ? X : never
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        Adapters[K] extends InputAdapter<infer _, infer X> ? X : never
     >;
 };
 

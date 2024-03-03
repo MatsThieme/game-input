@@ -15,7 +15,7 @@ export class Mouse<
         [MouseAxis.Position]: InputAxis;
         [MouseAxis.PositionHorizontal]: InputAxis;
         [MouseAxis.PositionVertical]: InputAxis;
-        [MouseAxis.Movement]?: InputAxis;
+        [MouseAxis.Movement]: InputAxis;
     };
 
     private _mouseMovedThisFrame = false;
@@ -31,6 +31,7 @@ export class Mouse<
             [MouseAxis.Position]: new InputAxis([0, 0]),
             [MouseAxis.PositionHorizontal]: new InputAxis(0),
             [MouseAxis.PositionVertical]: new InputAxis(0),
+            [MouseAxis.Movement]: new InputAxis([0, 0]),
         };
 
         this._onMouseMove = this._onMouseMove.bind(this);
@@ -46,10 +47,6 @@ export class Mouse<
     }
 
     public getAxis(axis: ActionMappedToAxis): Readonly<InputAxis> | undefined {
-        if (!this._axes[axis] && axis === MouseAxis.Movement) {
-            this._axes[axis] = new InputAxis([0, 0]);
-        }
-
         return this._axes[axis];
     }
 
@@ -67,27 +64,35 @@ export class Mouse<
 
             if (!this._mouseMovedThisFrame) {
                 this._axes[MouseAxis.Movement].setValues([0, 0]);
+            } else {
+                this._mouseMovedThisFrame = false;
             }
-
-            this._mouseMovedThisFrame = false;
         }
     }
 
     private _onMouseMove(event: MouseEvent): void {
         event.stopPropagation();
 
-        if (this._axes[MouseAxis.Movement]) {
-            this._axes[MouseAxis.Movement].setValues([event.movementX, event.movementY]);
+        if (!this._mouseMovedThisFrame) {
+            const posX = event.clientX;
+            const posY = event.clientY;
+
+            const [prevPosX, prevPosY] = this._axes[MouseAxis.Position].getValues();
+
+            if (prevPosX !== 0 && prevPosY !== 0) {
+                const [deltaMoveX, deltaMoveY] = [posX - prevPosX, posY - prevPosY];
+
+                this._axes[MouseAxis.Movement].setValues([deltaMoveX, deltaMoveY]);
+            }
+
+            this._setPosition(posX, posY);
+
             this._mouseMovedThisFrame = true;
         }
-
-        this._setPosition(event.clientX, event.clientY);
     }
 
     private _onMouseUp(event: MouseEvent): void {
         event.stopPropagation();
-
-        this._setPosition(event.clientX, event.clientY);
 
         if (!this._buttons[event.button]) {
             this._buttons[event.button] = new InputButton();
@@ -98,8 +103,6 @@ export class Mouse<
 
     private _onMouseDown(event: MouseEvent): void {
         event.stopPropagation();
-
-        this._setPosition(event.clientX, event.clientY);
 
         if (!this._buttons[event.button]) {
             this._buttons[event.button] = new InputButton();

@@ -1,4 +1,3 @@
-import { InputAdapter } from "./InputAdapter";
 import type { InputAxis } from "./InputAxis/InputAxis";
 import type { InputButton } from "./InputButton/InputButton";
 import type {
@@ -15,10 +14,7 @@ import type {
     MappedButtons,
 } from "./types";
 
-export const enum InputState {
-    ready = "ready",
-    disposed = "disposed",
-}
+type InputState = "ready" | "disposed";
 
 type AdapterFactories<Adapters> = { [K in keyof Adapters]: () => Adapters[K] };
 
@@ -37,7 +33,7 @@ export class Input<
     private readonly _frameInputButtonCache: Partial<Record<string, Readonly<InputButton>>>;
     private readonly _frameInputAxisCache: Partial<Record<string, InputAxis>>;
 
-    private _state: InputState = InputState.ready;
+    private _state: InputState = "ready";
 
     public constructor(
         adapters: AdapterFactories<Adapters>,
@@ -77,9 +73,10 @@ export class Input<
                 continue;
             }
 
-            const mappedTo = adapterMapping[action];
+            const mappedTo: string | number = adapterMapping[action];
 
-            if (!mappedTo) {
+            // may be 0
+            if (mappedTo === undefined) {
                 continue;
             }
 
@@ -153,9 +150,10 @@ export class Input<
                 continue;
             }
 
-            const mappedTo = adapterMapping[action];
+            const mappedTo: string | number = adapterMapping[action];
 
-            if (!mappedTo) {
+            // may be 0
+            if (mappedTo === undefined) {
                 continue;
             }
 
@@ -232,7 +230,7 @@ export class Input<
     }
 
     private _checkState(): boolean {
-        const disposed = this._state === InputState.disposed;
+        const disposed = this._state === "disposed";
 
         if (disposed) {
             console.error(
@@ -247,7 +245,7 @@ export class Input<
      * Dispose all input adapters.
      */
     public dispose(): void {
-        this._state = InputState.disposed;
+        this._state = "disposed";
 
         this._clearCache();
 
