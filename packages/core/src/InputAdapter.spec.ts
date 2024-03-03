@@ -20,7 +20,7 @@ describe("InputAdapter", () => {
                 test: {
                     TestAxis: TestAdapter.axisKey,
                 },
-            }
+            },
         );
 
         const steps = [
@@ -138,7 +138,7 @@ class ExternalEventSource<T extends (...args: any[]) => unknown = (...args: any[
 
     public dispatch<E extends EventType>(
         event: E,
-        value?: E extends "move" ? number[] : undefined
+        value?: E extends "move" ? number[] : undefined,
     ): void {
         this._listeners[event].forEach((cb) => cb(value));
     }

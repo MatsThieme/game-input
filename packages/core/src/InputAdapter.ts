@@ -8,7 +8,7 @@ export interface InputAdapter<
     ActionMappedToButton extends string | number = string | number,
     ActionMappedToAxis extends string | number = string | number,
     AdapterInputButton extends InputButton = InputButton,
-    AdapterInputAxis extends InputAxis = InputAxis
+    AdapterInputAxis extends InputAxis = InputAxis,
 > {
     /**
      * Get an InputButton object for the specified input of the corresponding adapter.

@@ -5,7 +5,7 @@ import { KeyboardButton } from "./KeyboardButton";
 
 export class Keyboard<
     ActionMappedToButton extends KeyboardButton = KeyboardButton,
-    ActionMappedToAxis extends KeyboardAxis = KeyboardAxis
+    ActionMappedToAxis extends KeyboardAxis = KeyboardAxis,
 > implements InputAdapter<ActionMappedToButton, ActionMappedToAxis>
 {
     private readonly _element: HTMLElement;

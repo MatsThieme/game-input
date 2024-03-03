@@ -27,7 +27,7 @@ export class Input<
     AxisMapping extends MappedAxes<Adapters>,
     Adapters extends GetAdapter<ButtonMapping, AxisMapping>,
     ButtonActions extends GetActionMappedTo<Adapters, ButtonMapping>,
-    AxisActions extends GetActionMappedTo<Adapters, AxisMapping>
+    AxisActions extends GetActionMappedTo<Adapters, AxisMapping>,
 > {
     private readonly _mappingButtons: Readonly<ButtonMapping>;
     private readonly _mappingAxes: Readonly<AxisMapping>;
@@ -42,7 +42,7 @@ export class Input<
     public constructor(
         adapters: AdapterFactories<Adapters>,
         mappingButtons: ButtonMapping,
-        mappingAxes: AxisMapping
+        mappingAxes: AxisMapping,
     ) {
         this._mappingButtons = mappingButtons;
         this._mappingAxes = mappingAxes;
@@ -58,7 +58,7 @@ export class Input<
      */
     public getButton<
         T extends ButtonActions,
-        U extends GetInputButtonForAdapter<GetAdaptersForAction<T, ButtonMapping, Adapters>>
+        U extends GetInputButtonForAdapter<GetAdaptersForAction<T, ButtonMapping, Adapters>>,
     >(action: T): Readonly<U> | undefined {
         if (!this._checkState()) {
             return;
@@ -108,7 +108,7 @@ export class Input<
     public getAdapterButton<
         AdapterName extends keyof Adapters & string,
         ActionName extends GetAdapterButtonActions<Adapters[AdapterName]>,
-        AdapterButton extends GetAdapterButton<Adapters[AdapterName]>
+        AdapterButton extends GetAdapterButton<Adapters[AdapterName]>,
     >(adapter: AdapterName, action: ActionName): AdapterButton | undefined {
         if (!this._checkState()) {
             return;
@@ -134,7 +134,7 @@ export class Input<
      */
     public getAxis<
         T extends AxisActions,
-        U extends GetInputAxisForAdapter<GetAdaptersForAction<T, AxisMapping, Adapters>>
+        U extends GetInputAxisForAdapter<GetAdaptersForAction<T, AxisMapping, Adapters>>,
     >(action: T): Readonly<U> | undefined {
         if (!this._checkState()) {
             return;
@@ -180,7 +180,7 @@ export class Input<
     public getAdapterAxis<
         AdapterName extends keyof Adapters & string,
         ActionName extends GetAdapterAxisActions<Adapters[AdapterName]>,
-        AdapterAxis extends GetAdapterAxis<Adapters[AdapterName]>
+        AdapterAxis extends GetAdapterAxis<Adapters[AdapterName]>,
     >(adapter: AdapterName, action: ActionName): AdapterAxis | undefined {
         if (!this._checkState()) {
             return;
@@ -236,7 +236,7 @@ export class Input<
 
         if (disposed) {
             console.error(
-                "Input is unusable because it was disposed with `input.dispose()`. Create a new instance."
+                "Input is unusable because it was disposed with `input.dispose()`. Create a new instance.",
             );
         }
 

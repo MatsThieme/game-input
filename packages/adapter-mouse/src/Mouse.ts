@@ -5,7 +5,7 @@ import type { MouseButton } from "./MouseButton";
 
 export class Mouse<
     ActionMappedToButton extends MouseButton = MouseButton,
-    ActionMappedToAxis extends MouseAxis = MouseAxis
+    ActionMappedToAxis extends MouseAxis = MouseAxis,
 > implements InputAdapter<ActionMappedToButton, ActionMappedToAxis>
 {
     private readonly _element: HTMLElement;

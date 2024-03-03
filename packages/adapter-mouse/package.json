@@ -23,11 +23,11 @@
         "test": "vitest run"
     },
     "peerDependencies": {
-        "@game-input/core": "workspace:packages/core"
+        "@game-input/core": "workspace:*"
     },
     "devDependencies": {
-        "tslib": "^2.6.0",
-        "typescript": "^5.1.6",
+        "tslib": "~2.6.2",
+        "typescript": "~5.3.3",
         "vitest": "^0.32.2"
     }
 }

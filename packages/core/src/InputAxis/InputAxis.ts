@@ -60,7 +60,7 @@ export class InputAxis<T extends NumberTuple = NumberTuple> {
         }
 
         return (this._length = Math.sqrt(
-            this._values.reduce((result, current) => result + current ** 2, 0)
+            this._values.reduce((result, current) => result + current ** 2, 0),
         ));
     }
 }

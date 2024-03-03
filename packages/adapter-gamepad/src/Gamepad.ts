@@ -5,7 +5,7 @@ import type { GamepadButton } from "./GamepadButton";
 
 export class Gamepad<
     ActionMappedToButton extends GamepadButton = GamepadButton,
-    ActionMappedToAxis extends GamepadAxis = GamepadAxis
+    ActionMappedToAxis extends GamepadAxis = GamepadAxis,
 > implements InputAdapter<ActionMappedToButton, ActionMappedToAxis>
 {
     private readonly _index: number;
@@ -32,7 +32,7 @@ export class Gamepad<
 
             if (this._gamepad) {
                 (this._buttons[button] as InputButton).setDown(
-                    this._gamepad.buttons[button].pressed
+                    this._gamepad.buttons[button].pressed,
                 );
             }
         }
@@ -113,7 +113,7 @@ export class Gamepad<
 
         if (this._gamepad && this._gamepad.mapping !== "standard") {
             console.warn(
-                "No gamepad with mapping 'standard' found. This adapter only supports the 'standard' mapping."
+                "No gamepad with mapping 'standard' found. This adapter only supports the 'standard' mapping.",
             );
 
             this._gamepad = null;

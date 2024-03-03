@@ -53,7 +53,7 @@ describe("Input", () => {
         const input = new Input(
             { test: (): InputAdapter => adapter },
             { test: { test: "test" } },
-            {}
+            {},
         );
 
         expect(adapterGetButtonFn).toBeCalledTimes(0);
@@ -83,7 +83,7 @@ describe("Input", () => {
         const input = new Input(
             { test: (): InputAdapter => adapter },
             {},
-            { test: { test: "test" } }
+            { test: { test: "test" } },
         );
 
         expect(adapterGetAxisFn).toBeCalledTimes(0);
@@ -118,12 +118,12 @@ describe("Input", () => {
             }
 
             public getButton(
-                key: "testButton1" | "testButton2"
+                key: "testButton1" | "testButton2",
             ): Readonly<InputButton> | undefined {
                 return this[`_${key}`];
             }
             public getAxis(
-                key: "testAxis1" | "testAxis2"
+                key: "testAxis1" | "testAxis2",
             ): Readonly<InputAxis<number[]>> | undefined {
                 return this[`_${key}`];
             }
@@ -138,7 +138,7 @@ describe("Input", () => {
         const input = new Input(
             { test: (): TestInputAdapter => new TestInputAdapter() },
             { test: { btn1: "testButton1", btn2: "testButton2" } },
-            { test: { axis1: "testAxis1", axis2: "testAxis2" } }
+            { test: { axis1: "testAxis1", axis2: "testAxis2" } },
         );
 
         expect(input.getAdapterButton("test", "testButton1")).toBe(input.getButton("btn1"));

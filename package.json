@@ -1,6 +1,6 @@
 {
     "private": true,
-    "packageManager": "yarn@3.3.1",
+    "packageManager": "yarn@4.1.0",
     "workspaces": [
         "packages/*",
         "examples/*"
@@ -11,19 +11,19 @@
         "format": "prettier -w packages",
         "lint-format": "prettier -c packages",
         "lint": "eslint packages/**/src --ext .ts --max-warnings 0",
-        "typecheck": "yarn foreach-package run typecheck",
-        "test": "yarn foreach-package run test",
-        "build": "yarn foreach-package run build",
-        "set-version": "yarn foreach-package version",
-        "publish-to-npm": "yarn foreach-package run prepare && yarn workspaces foreach --no-private npm publish --access public",
-        "foreach-package": "yarn workspaces foreach --no-private --exclude examples"
+        "typecheck": "yarn foreach run typecheck",
+        "test": "yarn foreach run test",
+        "build": "yarn foreach run build",
+        "set-version": "yarn foreach version",
+        "publish-to-npm": "yarn foreach run prepare && yarn workspaces foreach --no-private npm publish --access public",
+        "foreach": "yarn workspaces foreach -A --no-private --exclude examples"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^5.60.1",
-        "@typescript-eslint/parser": "^5.60.1",
-        "eslint": "^8.44.0",
+        "@typescript-eslint/eslint-plugin": "^7.1.0",
+        "@typescript-eslint/parser": "^7.1.0",
+        "eslint": "^8.57.0",
         "eslint-plugin-only-warn": "^1.1.0",
-        "prettier": "^2.8.8",
-        "typescript": "^5.1.6"
+        "prettier": "^3.2.5",
+        "typescript": "~5.3.3"
     }
 }

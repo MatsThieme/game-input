@@ -12,7 +12,7 @@ type TouchRecord = {
 
 export class Touch<
     ActionMappedToButton extends TouchButton = TouchButton,
-    ActionMappedToAxis extends TouchAxis = TouchAxis
+    ActionMappedToAxis extends TouchAxis = TouchAxis,
 > implements InputAdapter<ActionMappedToButton, ActionMappedToAxis, InputButton, InputAxis>
 {
     private readonly _touches: TouchRecord[];
