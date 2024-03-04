@@ -151,4 +151,41 @@ describe("Input", () => {
         expect(input.getAdapterAxis("test", "testAxis2")).toBe(input.getAxis("axis2"));
         expect(input.getAdapterAxis("test", "testAxis2")).not.toBe(input.getAxis("axis1"));
     });
+
+    it("should work with empty string and zero as input key", () => {
+        type ButtonAndActionKeys = "" | "test" | 0 | 123;
+
+        class TestInputAdapter implements InputAdapter<ButtonAndActionKeys, ButtonAndActionKeys> {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            public getButton(_key: ButtonAndActionKeys): Readonly<InputButton> | undefined {
+                return new InputButton();
+            }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            public getAxis(_key: ButtonAndActionKeys): Readonly<InputAxis<number[]>> | undefined {
+                return new InputAxis();
+            }
+            public update(): void {
+                throw new Error("Method not implemented.");
+            }
+            public dispose(): void {
+                throw new Error("Method not implemented.");
+            }
+        }
+
+        const input = new Input(
+            { test: () => new TestInputAdapter() },
+            { test: { emptyString: "", notEmptyString: "test", zero: 0, notZero: 123 } },
+            { test: { emptyString: "", notEmptyString: "test", zero: 0, notZero: 123 } },
+        );
+
+        expect(input.getButton("emptyString")).toBeDefined();
+        expect(input.getButton("notEmptyString")).toBeDefined();
+        expect(input.getButton("zero")).toBeDefined();
+        expect(input.getButton("notZero")).toBeDefined();
+
+        expect(input.getAxis("emptyString")).toBeDefined();
+        expect(input.getAxis("notEmptyString")).toBeDefined();
+        expect(input.getAxis("zero")).toBeDefined();
+        expect(input.getAxis("notZero")).toBeDefined();
+    });
 });
