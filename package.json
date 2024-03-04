@@ -15,7 +15,7 @@
         "test": "yarn foreach run test",
         "build": "yarn foreach run build",
         "set-version": "yarn foreach version",
-        "publish-to-npm": "yarn foreach run prepare && yarn workspaces foreach --no-private npm publish --access public",
+        "publish-to-npm": "yarn foreach run prepare && yarn foreach npm publish --access public",
         "foreach": "yarn workspaces foreach -A --no-private --exclude examples"
     },
     "devDependencies": {

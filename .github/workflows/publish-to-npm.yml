@@ -30,7 +30,7 @@ jobs:
         runs-on: ubuntu-latest
         name: Ensure release version availability
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - uses: ./.github/actions/ensure-release-availability
               with:
                   version: $computed_version
@@ -39,10 +39,10 @@ jobs:
         name: Test, Lint, Typecheck
         needs: check-version
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
               with:
-                  node-version: 18
+                  node-version-file: ".nvmrc"
             - run: yarn --immutable --immutable-cache
             - run: yarn build
             - run: yarn test
@@ -54,7 +54,7 @@ jobs:
         name: Create release branch
         needs: test
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - run: yarn --immutable --immutable-cache
             - run: yarn set-version $computed_version
             - run: |
@@ -68,12 +68,12 @@ jobs:
         name: Publish to npm
         needs: set-version
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
               with:
                   ref: release/${{ env.computed_version }}
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
-                  node-version: 18
+                  node-version-file: ".nvmrc"
                   registry-url: "https://registry.npmjs.org"
             - run: yarn --immutable --immutable-cache --check-cache
             - run: yarn publish-to-npm --tag $computed_tag
@@ -85,7 +85,7 @@ jobs:
         name: Merge release branch to main
         needs: publish
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
             - run: |
